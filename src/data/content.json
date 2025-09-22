@@ -1,0 +1,54 @@
+{
+  "rooms": [
+    {
+      "id": 1,
+      "name": "Quarto Vista Mar",
+      "capacity": "2 pessoas",
+      "price": "280",
+      "description": "Quarto amplo com vista direta para o mar, cama queen size e varanda privativa.",
+      "amenities": ["Vista para o mar", "Varanda privativa", "Ar condicionado", "Wi-Fi gratuito", "Café da manhã"],
+      "featured": true,
+      "images": ["room-interior.jpg"]
+    },
+    {
+      "id": 2,
+      "name": "Quarto Jardim",
+      "capacity": "2 pessoas", 
+      "price": "220",
+      "description": "Quarto aconchegante com vista para o jardim tropical da pousada.",
+      "amenities": ["Vista jardim", "Cama queen size", "Ar condicionado", "Wi-Fi gratuito", "Café da manhã"],
+      "featured": false,
+      "images": ["terrace-view.jpg"]
+    },
+    {
+      "id": 3,
+      "name": "Suíte Família",
+      "capacity": "4 pessoas",
+      "price": "420",
+      "description": "Suíte espaçosa perfeita para famílias, com área de estar e duas camas.",
+      "amenities": ["Área de estar", "2 camas queen", "Frigobar", "Ar condicionado", "Wi-Fi gratuito", "Café da manhã"],
+      "featured": false,
+      "images": ["room-interior.jpg"]
+    }
+  ],
+  "gallery": [
+    {
+      "id": 1,
+      "src": "hero-beach.jpg",
+      "alt": "Vista da praia de Guarda do Embaú",
+      "category": "Localização"
+    },
+    {
+      "id": 2,
+      "src": "room-interior.jpg", 
+      "alt": "Quarto aconchegante da pousada",
+      "category": "Quartos"
+    },
+    {
+      "id": 3,
+      "src": "terrace-view.jpg",
+      "alt": "Terraço com vista para o mar",
+      "category": "Áreas Comuns"
+    }
+  ]
+}

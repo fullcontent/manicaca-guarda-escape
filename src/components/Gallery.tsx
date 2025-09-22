@@ -1,40 +1,7 @@
-import heroImage from "@/assets/hero-beach.jpg";
-import roomImage from "@/assets/room-interior.jpg";
-import terraceImage from "@/assets/terrace-view.jpg";
+import { useContentData } from "@/hooks/useContentData";
 
 const Gallery = () => {
-  const images = [
-    {
-      src: heroImage,
-      alt: "Vista da praia de Guarda do Embaú",
-      category: "Localização"
-    },
-    {
-      src: roomImage,
-      alt: "Quarto aconchegante da pousada",
-      category: "Quartos"
-    },
-    {
-      src: terraceImage,
-      alt: "Terraço com vista para o mar",
-      category: "Áreas Comuns"
-    },
-    {
-      src: heroImage,
-      alt: "Pôr do sol na praia",
-      category: "Natureza"
-    },
-    {
-      src: terraceImage,
-      alt: "Café da manhã com vista",
-      category: "Gastronomia"
-    },
-    {
-      src: roomImage,
-      alt: "Ambiente acolhedor",
-      category: "Conforto"
-    }
-  ];
+  const { data, getImageUrl } = useContentData();
 
   return (
     <section className="py-20 px-6 bg-background">
@@ -50,7 +17,7 @@ const Gallery = () => {
 
         {/* Image Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {images.map((image, index) => (
+          {data.gallery.map((image, index) => (
             <div 
               key={index} 
               className="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-xl transition-all-smooth animate-fade-in cursor-pointer"
@@ -58,7 +25,7 @@ const Gallery = () => {
             >
               <div className="aspect-square">
                 <img 
-                  src={image.src} 
+                  src={getImageUrl(image.src)}
                   alt={image.alt}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                 />
