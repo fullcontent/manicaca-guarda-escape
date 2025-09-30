@@ -57,23 +57,23 @@ const Experience = () => {
                 cada detalhe do seu cuidado.
               </p>
               <p className="text-muted-foreground text-lg leading-relaxed">
-                Desde o café da manhã preparado com ingredientes locais até as dicas 
+                Da infraestrutura completa com piscina e churrasqueira às dicas 
                 exclusivas dos melhores spots da região, estamos aqui para tornar 
                 sua estadia verdadeiramente memorável.
               </p>
             </div>
             <div className="space-y-6">
               <div className="bg-primary/5 p-6 rounded-xl">
-                <h4 className="font-semibold text-primary mb-2">Café da Manhã Regional</h4>
-                <p className="text-muted-foreground">Sabores autênticos de Santa Catarina toda manhã</p>
+                <h4 className="font-semibold text-primary mb-2">Infraestrutura Completa</h4>
+                <p className="text-muted-foreground">Piscina, churrasqueira e área de convivência</p>
               </div>
               <div className="bg-accent/5 p-6 rounded-xl">
-                <h4 className="font-semibold text-accent mb-2">Concierge Local</h4>
+                <h4 className="font-semibold text-accent mb-2">Atendimento Personalizado</h4>
                 <p className="text-muted-foreground">Dicas exclusivas dos melhores lugares da região</p>
               </div>
               <div className="bg-earth/20 p-6 rounded-xl">
-                <h4 className="font-semibold text-earth-dark mb-2">Sustentabilidade</h4>
-                <p className="text-muted-foreground">Compromisso com a preservação do meio ambiente</p>
+                <h4 className="font-semibold text-earth-dark mb-2">Localização Privilegiada</h4>
+                <p className="text-muted-foreground">Próximo à praia e principais atrações</p>
               </div>
             </div>
           </div>

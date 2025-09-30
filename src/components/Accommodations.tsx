@@ -1,19 +1,29 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Users, Wifi, Coffee, AirVent, Car, Waves } from "lucide-react";
+import { Users, Wifi, AirVent, Car, Waves, Tv, Utensils, Snowflake, Sun } from "lucide-react";
 import { useContentData } from "@/hooks/useContentData";
 
 const Accommodations = () => {
   const { data, getImageUrl } = useContentData();
 
   const allAmenities = [
-    { icon: Wifi, name: "Wi-Fi Gratuito" },
-    { icon: Coffee, name: "Café da Manhã" },
-    { icon: AirVent, name: "Ar Condicionado" },
+    { icon: Waves, name: "Piscina com Quiosque" },
+    { icon: Utensils, name: "Churrasqueira" },
     { icon: Car, name: "Estacionamento" },
-    { icon: Waves, name: "Próximo à Praia" },
-    { icon: Users, name: "Área Comum" }
+    { icon: AirVent, name: "Ar Condicionado" },
+    { icon: Tv, name: "TV a Cabo" },
+    { icon: Wifi, name: "Internet" },
+    { icon: Utensils, name: "Área de Café da Manhã" },
+    { icon: Snowflake, name: "Frigobar nas Suítes" },
+    { icon: Sun, name: "Sacada Individual" }
+  ];
+
+  const additionalInfo = [
+    "Roupa de cama e toalha de banho (troca a cada 5 diárias)",
+    "Não temos serviço de camareira diária",
+    "Não fornecemos café da manhã",
+    "Não aceitamos pets"
   ];
 
   return (
@@ -83,12 +93,12 @@ const Accommodations = () => {
         </div>
 
         {/* All Amenities */}
-        <div className="bg-white rounded-2xl p-8 md:p-12 shadow-lg">
+        <div className="bg-white rounded-2xl p-8 md:p-12 shadow-lg mb-8">
           <h3 className="text-2xl md:text-3xl font-bold text-foreground text-center mb-12">
-            Todas as Comodidades Incluídas
+            Comodidades da Pousada
           </h3>
           
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 mb-12">
             {allAmenities.map((amenity, index) => (
               <div key={index} className="text-center animate-fade-in" style={{animationDelay: `${index * 0.1}s`}}>
                 <div className="w-16 h-16 mx-auto mb-4 bg-primary/10 rounded-full flex items-center justify-center">
@@ -97,6 +107,19 @@ const Accommodations = () => {
                 <p className="text-sm font-medium text-foreground">{amenity.name}</p>
               </div>
             ))}
+          </div>
+
+          {/* Additional Information */}
+          <div className="border-t pt-8">
+            <h4 className="text-lg font-semibold text-foreground mb-4 text-center">Informações Importantes</h4>
+            <div className="grid md:grid-cols-2 gap-4 max-w-3xl mx-auto">
+              {additionalInfo.map((info, index) => (
+                <div key={index} className="flex items-start gap-3 p-4 bg-secondary/20 rounded-lg">
+                  <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></div>
+                  <p className="text-sm text-muted-foreground">{info}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
