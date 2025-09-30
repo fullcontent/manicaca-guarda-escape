@@ -1,36 +1,11 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Phone, Mail, MapPin, Clock, MessageCircle, Instagram } from "lucide-react";
+import { Phone, Mail, MapPin, Instagram } from "lucide-react";
 
 const Contact = () => {
-  const contactInfo = [
-    {
-      icon: Phone,
-      title: "Telefone & WhatsApp",
-      details: ["+55 (48) 99999-9999", "Disponível 24h"],
-      action: "Chamar no WhatsApp"
-    },
-    {
-      icon: Mail,
-      title: "E-mail",
-      details: ["contato@pousadamanicaca.com.br", "Resposta em até 2h"],
-      action: "Enviar E-mail"
-    },
-    {
-      icon: MapPin,
-      title: "Endereço",
-      details: ["Rua das Palmeiras, 123", "Guarda do Embaú, SC"],
-      action: "Ver no Mapa"
-    },
-    {
-      icon: Clock,
-      title: "Horário de Atendimento",
-      details: ["Recepção: 7h às 22h", "Emergências: 24h"],
-      action: null
-    }
-  ];
+  const whatsappNumber = "5541999133301"; // +55 41 9991-3301
+  const whatsappLink = `https://wa.me/${whatsappNumber}`;
+  const googleMapsLink = "https://www.google.com/maps/place/Pousada+Manicaca/@-27.9055,-48.5970513,17z/data=!4m9!3m8!1s0x9526d7d20f7d3dbf:0x1ccc08415a2a330d!5m2!4m1!1i2!8m2!3d-27.9055!4d-48.594471!16s%2Fg%2F1yfh_jqkt?entry=ttu&g_ep=EgoyMDI1MDkyNC4wIKXMDSoASAFQAw%3D%3D";
 
   return (
     <section className="py-20 px-6 bg-gradient-sand">
@@ -40,121 +15,113 @@ const Contact = () => {
             Fale Conosco
           </h2>
           <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
-            Estamos aqui para tornar sua experiência inesquecível. 
-            Entre em contato e tire todas suas dúvidas
+            Estamos aqui para tornar sua experiência inesquecível
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-12">
-          {/* Contact Information */}
-          <div className="space-y-6">
-            <h3 className="text-2xl font-bold text-foreground mb-8">
-              Como nos encontrar
-            </h3>
-            
-            {contactInfo.map((info, index) => (
-              <Card key={index} className="p-6 hover:shadow-md transition-all-smooth animate-slide-in" style={{animationDelay: `${index * 0.1}s`}}>
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
-                    <info.icon className="w-6 h-6 text-primary" />
-                  </div>
-                  <div className="flex-1">
-                    <h4 className="font-semibold text-foreground mb-2">{info.title}</h4>
-                    {info.details.map((detail, detailIndex) => (
-                      <p key={detailIndex} className="text-muted-foreground text-sm mb-1">{detail}</p>
-                    ))}
-                    {info.action && (
-                      <Button variant="link" className="px-0 h-auto text-primary hover:text-primary-dark">
-                        {info.action}
-                      </Button>
-                    )}
-                  </div>
-                </div>
-              </Card>
-            ))}
+        {/* Contact Cards */}
+        <div className="grid md:grid-cols-3 gap-6 mb-16">
+          {/* WhatsApp */}
+          <Card className="p-8 text-center hover:shadow-lg transition-all-smooth">
+            <div className="w-16 h-16 bg-green-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Phone className="w-8 h-8 text-green-600" />
+            </div>
+            <h3 className="font-bold text-foreground mb-2">WhatsApp</h3>
+            <p className="text-muted-foreground text-sm mb-1">+55 41 9991-3301</p>
+            <p className="text-muted-foreground text-xs mb-4">Atendimento 24h</p>
+            <Button 
+              asChild
+              className="w-full bg-green-600 hover:bg-green-700 text-white"
+            >
+              <a href={whatsappLink} target="_blank" rel="noopener noreferrer">
+                Conversar Agora
+              </a>
+            </Button>
+          </Card>
 
-            {/* Social Media */}
-            <Card className="p-6">
-              <h4 className="font-semibold text-foreground mb-4">Redes Sociais</h4>
-              <div className="flex gap-4">
-                <Button size="sm" className="bg-gradient-to-r from-pink-500 to-purple-600 text-white hover:shadow-lg">
-                  <Instagram className="w-4 h-4 mr-2" />
-                  Instagram
-                </Button>
-                <Button size="sm" variant="outline" className="hover:bg-primary hover:text-white">
-                  <MessageCircle className="w-4 h-4 mr-2" />
-                  Facebook
-                </Button>
-              </div>
-            </Card>
-          </div>
+          {/* Email */}
+          <Card className="p-8 text-center hover:shadow-lg transition-all-smooth">
+            <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Mail className="w-8 h-8 text-primary" />
+            </div>
+            <h3 className="font-bold text-foreground mb-2">E-mail</h3>
+            <p className="text-muted-foreground text-sm mb-1">contato@pousadamanicaca.com.br</p>
+            <p className="text-muted-foreground text-xs mb-4">Resposta em até 24h</p>
+            <Button 
+              asChild
+              variant="outline"
+              className="w-full"
+            >
+              <a href="mailto:contato@pousadamanicaca.com.br">
+                Enviar E-mail
+              </a>
+            </Button>
+          </Card>
 
-          {/* Contact Form */}
-          <Card className="p-8">
-            <h3 className="text-2xl font-bold text-foreground mb-6">
-              Envie uma Mensagem
-            </h3>
-            
-            <form className="space-y-6">
-              <div className="grid md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-foreground mb-2">
-                    Nome
-                  </label>
-                  <Input placeholder="Seu nome completo" />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-foreground mb-2">
-                    E-mail
-                  </label>
-                  <Input type="email" placeholder="seu@email.com" />
-                </div>
-              </div>
-              
-              <div className="grid md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-foreground mb-2">
-                    Telefone
-                  </label>
-                  <Input placeholder="(48) 99999-9999" />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-foreground mb-2">
-                    Check-in
-                  </label>
-                  <Input type="date" />
-                </div>
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium text-foreground mb-2">
-                  Mensagem
-                </label>
-                <Textarea 
-                  placeholder="Conte-nos sobre sua viagem, dúvidas ou pedidos especiais..."
-                  rows={4}
-                />
-              </div>
-              
-              <Button className="w-full bg-primary hover:bg-primary-dark text-white font-semibold py-3">
-                Enviar Mensagem
-              </Button>
-            </form>
+          {/* Localização */}
+          <Card className="p-8 text-center hover:shadow-lg transition-all-smooth">
+            <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+              <MapPin className="w-8 h-8 text-primary" />
+            </div>
+            <h3 className="font-bold text-foreground mb-2">Localização</h3>
+            <p className="text-muted-foreground text-sm mb-1">R. Trinta e Dois, S/N</p>
+            <p className="text-muted-foreground text-xs mb-4">Enseada de Brito, Palhoça - SC</p>
+            <Button 
+              asChild
+              variant="outline"
+              className="w-full"
+            >
+              <a href={googleMapsLink} target="_blank" rel="noopener noreferrer">
+                Abrir no Maps
+              </a>
+            </Button>
           </Card>
         </div>
 
-        {/* Booking CTA */}
-        <div className="mt-16 text-center">
-          <div className="inline-block p-8 bg-white rounded-2xl shadow-lg">
-            <h3 className="text-2xl font-bold text-foreground mb-4">
-              Pronto para Reservar?
-            </h3>
-            <p className="text-muted-foreground mb-6 max-w-md">
-              Garante já sua estadia no paraíso. Vagas limitadas para uma experiência exclusiva.
-            </p>
-            <Button size="lg" className="bg-accent hover:bg-accent/80 text-accent-foreground px-8 py-4 text-lg font-semibold">
-              Fazer Reserva Agora
+        {/* Social Media */}
+        <div className="text-center mb-16">
+          <h3 className="text-xl font-semibold text-foreground mb-6">Siga-nos nas Redes Sociais</h3>
+          <div className="flex justify-center gap-4">
+            <Button size="lg" className="bg-gradient-to-r from-pink-500 to-purple-600 text-white hover:shadow-lg">
+              <Instagram className="w-5 h-5 mr-2" />
+              Instagram
             </Button>
+          </div>
+        </div>
+
+        {/* Trust Badges */}
+        <div className="bg-white rounded-2xl p-8 shadow-lg">
+          <h3 className="text-center text-xl font-semibold text-foreground mb-8">
+            Recomendado Por
+          </h3>
+          <div className="flex flex-col md:flex-row items-center justify-center gap-8">
+            <div className="flex flex-col items-center">
+              <div className="bg-[#003580] text-white px-8 py-4 rounded-lg font-bold text-2xl mb-2">
+                Booking.com
+              </div>
+              <div className="flex items-center gap-1">
+                {[...Array(5)].map((_, i) => (
+                  <svg key={i} className="w-5 h-5 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                    <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
+                  </svg>
+                ))}
+              </div>
+              <p className="text-sm text-muted-foreground mt-1">Avaliação Excepcional</p>
+            </div>
+            
+            <div className="flex flex-col items-center">
+              <div className="bg-[#00AF87] text-white px-8 py-4 rounded-lg font-bold text-2xl mb-2">
+                TripAdvisor
+              </div>
+              <div className="flex items-center gap-1">
+                {[...Array(5)].map((_, i) => (
+                  <svg key={i} className="w-5 h-5 text-green-600 fill-current" viewBox="0 0 20 20">
+                    <circle cx="10" cy="10" r="10" />
+                  </svg>
+                ))}
+              </div>
+              <p className="text-sm text-muted-foreground mt-1">Certificado de Excelência</p>
+            </div>
           </div>
         </div>
       </div>
