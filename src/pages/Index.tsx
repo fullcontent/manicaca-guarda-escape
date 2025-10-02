@@ -2,6 +2,7 @@ import Hero from "@/components/Hero";
 import Experience from "@/components/Experience";
 import Location from "@/components/Location";
 import Accommodations from "@/components/Accommodations";
+import Pricing from "@/components/Pricing";
 import Gallery from "@/components/Gallery";
 import Contact from "@/components/Contact";
 
@@ -12,6 +13,7 @@ const Index = () => {
       <Experience />
       <Location />
       <Accommodations />
+      <Pricing />
       <Gallery />
       <Contact />
     </div>

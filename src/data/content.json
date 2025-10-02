@@ -2,31 +2,31 @@
   "rooms": [
     {
       "id": 1,
-      "name": "Quarto Vista Mar",
+      "name": "Suíte Premium",
       "capacity": "2 pessoas",
-      "price": "280",
-      "description": "Quarto amplo com vista direta para o mar, cama queen size e varanda privativa.",
-      "amenities": ["Vista para o mar", "Varanda privativa", "Ar condicionado", "Wi-Fi gratuito", "Café da manhã"],
+      "price": "250-290",
+      "description": "Nossa suíte mais espaçosa, perfeita para quem busca mais conforto após um dia de aventuras.",
+      "amenities": ["Suíte ampla", "Frigobar", "Ar condicionado", "TV LED/Smart", "Banheiro privativo", "Varanda individual"],
       "featured": true,
       "images": ["room-interior.jpg"]
     },
     {
       "id": 2,
-      "name": "Quarto Jardim",
+      "name": "Suíte Casal Smart TV",
       "capacity": "2 pessoas", 
-      "price": "220",
-      "description": "Quarto aconchegante com vista para o jardim tropical da pousada.",
-      "amenities": ["Vista jardim", "Cama queen size", "Ar condicionado", "Wi-Fi gratuito", "Café da manhã"],
+      "price": "240-275",
+      "description": "Suíte aconchegante equipada com Smart TV para seu entretenimento e relaxamento.",
+      "amenities": ["Smart TV", "Frigobar", "Ar condicionado", "Banheiro privativo", "Varanda individual"],
       "featured": false,
       "images": ["terrace-view.jpg"]
     },
     {
       "id": 3,
-      "name": "Suíte Família",
-      "capacity": "4 pessoas",
-      "price": "420",
-      "description": "Suíte espaçosa perfeita para famílias, com área de estar e duas camas.",
-      "amenities": ["Área de estar", "2 camas queen", "Frigobar", "Ar condicionado", "Wi-Fi gratuito", "Café da manhã"],
+      "name": "Suíte com Cama de Solteiro",
+      "capacity": "1-2 pessoas",
+      "price": "240-275",
+      "description": "Ideal para viajantes solo ou duplas, com todo conforto necessário para uma estadia agradável.",
+      "amenities": ["Cama de solteiro", "Frigobar", "Ar condicionado", "TV LED", "Banheiro privativo", "Varanda individual"],
       "featured": false,
       "images": ["room-interior.jpg"]
     }

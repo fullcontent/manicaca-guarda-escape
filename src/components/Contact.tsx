@@ -12,10 +12,10 @@ const Contact = () => {
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
-            Fale Conosco
+            Reserve Sua Aventura
           </h2>
           <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
-            Estamos aqui para tornar sua experiência inesquecível
+            Entre em contato e garanta sua data na Guarda do Embaú
           </p>
         </div>
 

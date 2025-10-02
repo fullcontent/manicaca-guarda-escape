@@ -5,18 +5,18 @@ const Experience = () => {
   const features = [
     {
       icon: Heart,
-      title: "Hospitalidade Calorosa",
-      description: "Nossa equipe dedica-se a fazer você se sentir em casa, oferecendo um atendimento personalizado e acolhedor."
+      title: "Equipe de Anfitriões Atenciosa",
+      description: "Nossa equipe está sempre pronta para receber você com carinho e oferecer dicas exclusivas da região."
     },
     {
       icon: Home,
-      title: "Ambiente Familiar",
-      description: "Desfrute de um espaço íntimo e confortável, perfeito para relaxar e criar memórias especiais."
+      title: "Ambiente Familiar e Tranquilo",
+      description: "Um espaço acolhedor onde você pode relaxar completamente e se sentir em casa longe de casa."
     },
     {
       icon: MapPin,
-      title: "Localização Privilegiada",
-      description: "A apenas poucos metros da praia, você terá acesso direto ao paraíso natural de Guarda do Embaú."
+      title: "Infraestrutura Completa",
+      description: "Piscina para refrescar, quiosque com churrasqueira e estacionamento para sua comodidade."
     }
   ];
 
@@ -25,11 +25,10 @@ const Experience = () => {
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
-            A Experiência Manicaca
+            O Seu Ponto de Paz Após a Jornada
           </h2>
           <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
-            Mais que uma hospedagem, oferecemos uma experiência autêntica 
-            que conecta você com a essência da costa brasileira
+            Acolhimento, infraestrutura completa e tranquilidade para recarregar suas energias
           </p>
         </div>
 
@@ -49,31 +48,34 @@ const Experience = () => {
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
               <h3 className="text-3xl font-bold text-foreground mb-6">
-                Sua Segunda Casa no Paraíso
+                Conforto e Liberdade
               </h3>
               <p className="text-muted-foreground text-lg leading-relaxed mb-6">
-                Na Pousada Manicaca, acreditamos que cada hóspede merece se sentir especial. 
-                Nossa paixão por hospitalidade e amor por Guarda do Embaú se refletem em 
-                cada detalhe do seu cuidado.
+                Na Pousada Manicaca, você encontra o equilíbrio perfeito entre conforto e autonomia. 
+                Nossa estrutura oferece tudo que você precisa para relaxar após um dia de aventuras.
+              </p>
+              <p className="text-muted-foreground text-lg leading-relaxed mb-6">
+                Aproveite a liberdade para explorar a autêntica culinária local da Guarda do Embaú. 
+                Nossa área de café da manhã está equipada com utensílios, cafeteira, sanduicheira e 
+                microondas para você preparar suas refeições no seu próprio ritmo.
               </p>
               <p className="text-muted-foreground text-lg leading-relaxed">
-                Da infraestrutura completa com piscina e churrasqueira às dicas 
-                exclusivas dos melhores spots da região, estamos aqui para tornar 
-                sua estadia verdadeiramente memorável.
+                Da piscina refrescante ao quiosque com churrasqueira, criamos o ambiente 
+                perfeito para você recarregar as energias e criar memórias inesquecíveis.
               </p>
             </div>
             <div className="space-y-6">
               <div className="bg-primary/5 p-6 rounded-xl">
-                <h4 className="font-semibold text-primary mb-2">Infraestrutura Completa</h4>
-                <p className="text-muted-foreground">Piscina, churrasqueira e área de convivência</p>
+                <h4 className="font-semibold text-primary mb-2">Piscina e Lazer</h4>
+                <p className="text-muted-foreground">Piscina para refrescar e quiosque com churrasqueira</p>
               </div>
               <div className="bg-accent/5 p-6 rounded-xl">
-                <h4 className="font-semibold text-accent mb-2">Atendimento Personalizado</h4>
-                <p className="text-muted-foreground">Dicas exclusivas dos melhores lugares da região</p>
+                <h4 className="font-semibold text-accent mb-2">Cozinha Equipada</h4>
+                <p className="text-muted-foreground">Cafeteira, sanduicheira, microondas e utensílios</p>
               </div>
               <div className="bg-earth/20 p-6 rounded-xl">
-                <h4 className="font-semibold text-earth-dark mb-2">Localização Privilegiada</h4>
-                <p className="text-muted-foreground">Próximo à praia e principais atrações</p>
+                <h4 className="font-semibold text-earth-dark mb-2">Estacionamento Incluso</h4>
+                <p className="text-muted-foreground">Estacione e explore a Guarda a pé</p>
               </div>
             </div>
           </div>

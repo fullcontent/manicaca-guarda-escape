@@ -31,11 +31,18 @@ const Accommodations = () => {
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
-            Nossos Quartos
+            Onde a Noite Restaura a Energia
           </h2>
           <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
-            Acomodações pensadas para seu conforto e relaxamento, 
-            cada uma com sua personalidade única
+            Todas as suítes ficam no primeiro andar. Prepare-se para o próximo dia de aventuras.
+          </p>
+        </div>
+
+        {/* Important Notice */}
+        <div className="bg-primary/5 border-l-4 border-primary p-6 rounded-lg mb-12">
+          <p className="text-foreground font-semibold mb-2">⚠️ Informação Importante</p>
+          <p className="text-muted-foreground">
+            Todas as suítes estão localizadas no primeiro andar. É necessário subir um lance de escada para acessá-las.
           </p>
         </div>
 
@@ -46,7 +53,7 @@ const Accommodations = () => {
               {room.featured && (
                 <div className="relative">
                   <Badge className="absolute top-4 left-4 z-10 bg-accent text-accent-foreground">
-                    Mais Procurado
+                    Mais Espaçosa
                   </Badge>
                 </div>
               )}
@@ -60,20 +67,15 @@ const Accommodations = () => {
               </div>
               
               <div className="p-6">
-                <div className="flex justify-between items-start mb-4">
-                  <h3 className="text-xl font-bold text-foreground">{room.name}</h3>
-                  <div className="text-right">
-                    <p className="text-2xl font-bold text-primary">R$ {room.price}</p>
-                    <p className="text-sm text-muted-foreground">por noite</p>
+                <div className="mb-4">
+                  <h3 className="text-xl font-bold text-foreground mb-2">{room.name}</h3>
+                  <div className="flex items-center gap-2 text-muted-foreground text-sm">
+                    <Users className="w-4 h-4 text-primary" />
+                    <span>{room.capacity}</span>
                   </div>
                 </div>
                 
                 <p className="text-muted-foreground mb-4 leading-relaxed">{room.description}</p>
-                
-                <div className="flex items-center gap-2 mb-4">
-                  <Users className="w-4 h-4 text-primary" />
-                  <span className="text-sm text-muted-foreground">{room.capacity}</span>
-                </div>
                 
                 <div className="space-y-2 mb-6">
                   {room.amenities.map((amenity, amenityIndex) => (
@@ -84,8 +86,11 @@ const Accommodations = () => {
                   ))}
                 </div>
                 
-                <Button className="w-full bg-primary hover:bg-primary-dark text-white">
-                  Reservar Agora
+                <Button 
+                  className="w-full bg-primary hover:bg-primary-dark text-white"
+                  onClick={() => document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })}
+                >
+                  Ver Preços
                 </Button>
               </div>
             </Card>
@@ -111,14 +116,32 @@ const Accommodations = () => {
 
           {/* Additional Information */}
           <div className="border-t pt-8">
-            <h4 className="text-lg font-semibold text-foreground mb-4 text-center">Informações Importantes</h4>
-            <div className="grid md:grid-cols-2 gap-4 max-w-3xl mx-auto">
-              {additionalInfo.map((info, index) => (
-                <div key={index} className="flex items-start gap-3 p-4 bg-secondary/20 rounded-lg">
-                  <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></div>
-                  <p className="text-sm text-muted-foreground">{info}</p>
-                </div>
-              ))}
+            <h4 className="text-lg font-semibold text-foreground mb-4 text-center">Comodidades Comuns</h4>
+            <div className="grid md:grid-cols-2 gap-4 max-w-3xl mx-auto mb-6">
+              <div className="flex items-start gap-3 p-4 bg-secondary/20 rounded-lg">
+                <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></div>
+                <p className="text-sm text-muted-foreground">Varandas individuais com rede, mesinha e cadeiras</p>
+              </div>
+              <div className="flex items-start gap-3 p-4 bg-secondary/20 rounded-lg">
+                <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></div>
+                <p className="text-sm text-muted-foreground">Roupa de cama e toalha de banho (troca a cada 5 diárias)</p>
+              </div>
+            </div>
+            
+            <h4 className="text-lg font-semibold text-foreground mb-4 text-center">Observações</h4>
+            <div className="grid md:grid-cols-3 gap-4 max-w-4xl mx-auto">
+              <div className="flex items-start gap-3 p-4 bg-amber-50 rounded-lg border border-amber-200">
+                <div className="w-2 h-2 bg-amber-500 rounded-full mt-2 flex-shrink-0"></div>
+                <p className="text-sm text-amber-900">Não temos serviço de camareira diária</p>
+              </div>
+              <div className="flex items-start gap-3 p-4 bg-amber-50 rounded-lg border border-amber-200">
+                <div className="w-2 h-2 bg-amber-500 rounded-full mt-2 flex-shrink-0"></div>
+                <p className="text-sm text-amber-900">Não fornecemos café da manhã pronto</p>
+              </div>
+              <div className="flex items-start gap-3 p-4 bg-amber-50 rounded-lg border border-amber-200">
+                <div className="w-2 h-2 bg-amber-500 rounded-full mt-2 flex-shrink-0"></div>
+                <p className="text-sm text-amber-900">Não aceitamos pets</p>
+              </div>
             </div>
           </div>
         </div>

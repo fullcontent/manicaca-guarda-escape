@@ -6,23 +6,28 @@ const Location = () => {
   const attractions = [
     {
       name: "Praia da Guarda",
-      distance: "2 min caminhando",
-      description: "Praia principal com ondas perfeitas para surf"
+      distance: "Poucos passos",
+      description: "Acesso direto à praia principal para surf e banho de mar"
     },
     {
       name: "Rio da Madre",
-      distance: "5 min caminhando",
-      description: "Rio cristalino ideal para stand up paddle"
+      distance: "Caminhada curta",
+      description: "Rio cristalino perfeito para stand up paddle e relaxamento"
     },
     {
-      name: "Centro da Vila",
-      distance: "3 min caminhando",
-      description: "Restaurantes, lojinhas e vida noturna"
+      name: "Centrinho",
+      distance: "Poucos minutos",
+      description: "Restaurantes com culinária local, lojinhas e comércio"
     },
     {
-      name: "Trilha do Morro",
-      distance: "10 min caminhando",
-      description: "Vista panorâmica da região"
+      name: "Pedra do Urubu",
+      distance: "Caminhada",
+      description: "Vista cinematográfica de tirar o fôlego"
+    },
+    {
+      name: "Vale da Utopia",
+      distance: "Caminhada",
+      description: "Trilhas em meio à natureza exuberante"
     }
   ];
 
@@ -31,11 +36,10 @@ const Location = () => {
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
-            Localização Privilegiada
+            Estacione a Rotina. Viva a Guarda a Pé.
           </h2>
           <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
-            No coração de Guarda do Embaú, com acesso direto às belezas naturais 
-            que fazem desta região um destino único
+            Localização estratégica em rua tranquila, a poucos passos da praia, do rio e das principais aventuras da região
           </p>
         </div>
 
@@ -51,15 +55,24 @@ const Location = () => {
                 </div>
               </div>
             </div>
-            <Button className="absolute bottom-4 right-4 bg-white text-primary hover:bg-secondary">
-              Ver no Google Maps
+            <Button 
+              asChild
+              className="absolute bottom-4 right-4 bg-white text-primary hover:bg-secondary"
+            >
+              <a 
+                href="https://www.google.com/maps/place/Pousada+Manicaca/@-27.9055,-48.5970513,17z/data=!4m9!3m8!1s0x9526d7d20f7d3dbf:0x1ccc08415a2a330d!5m2!4m1!1i2!8m2!3d-27.9055!4d-48.594471!16s%2Fg%2F1yfh_jqkt?entry=ttu&g_ep=EgoyMDI1MDkyNC4wIKXMDSoASAFQAw%3D%3D"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Ver no Google Maps
+              </a>
             </Button>
           </div>
 
           {/* Attractions List */}
           <div className="space-y-6">
             <h3 className="text-2xl font-bold text-foreground mb-8">
-              O que você encontra por aqui
+              Aventuras Acessíveis a Pé
             </h3>
             {attractions.map((attraction, index) => (
               <Card key={index} className="p-6 hover:shadow-md transition-all-smooth animate-slide-in" style={{animationDelay: `${index * 0.1}s`}}>
@@ -91,16 +104,16 @@ const Location = () => {
           
           <Card className="p-6 text-center">
             <Clock className="w-12 h-12 mx-auto mb-4 text-accent" />
-            <h4 className="font-semibold text-foreground mb-2">Check-in</h4>
-            <p className="text-muted-foreground text-sm">A partir das 15h</p>
-            <p className="text-muted-foreground text-sm">Check-out até 12h</p>
+            <h4 className="font-semibold text-foreground mb-2">Check-in / Check-out</h4>
+            <p className="text-muted-foreground text-sm">Check-in: 14h</p>
+            <p className="text-muted-foreground text-sm">Check-out: Meio-dia</p>
           </Card>
           
           <Card className="p-6 text-center">
             <MapPin className="w-12 h-12 mx-auto mb-4 text-earth" />
             <h4 className="font-semibold text-foreground mb-2">Endereço</h4>
-            <p className="text-muted-foreground text-sm">Rua das Palmeiras, 123</p>
-            <p className="text-muted-foreground text-sm">Guarda do Embaú, SC</p>
+            <p className="text-muted-foreground text-sm">R. Trinta e Dois, S/N</p>
+            <p className="text-muted-foreground text-sm">Enseada de Brito, Palhoça - SC</p>
           </Card>
         </div>
       </div>
