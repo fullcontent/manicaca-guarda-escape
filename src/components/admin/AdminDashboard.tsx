@@ -1,26 +1,65 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { LogOut, Bed, Images, Edit, Star, Users, DollarSign } from "lucide-react";
-import { useAuth } from "@/hooks/useAuth";
-import { useContentData } from "@/hooks/useContentData";
-import RoomEditor from "./RoomEditor";
-import GalleryManager from "./GalleryManager";
+import { LogOut, Bed, Images, Edit, Star, DollarSign, Plus } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 import logoManicaca from "@/assets/logo-manicaca.png";
 
-const AdminDashboard = () => {
-  const { logout } = useAuth();
-  const { data, getImageUrl } = useContentData();
-  const [selectedRoom, setSelectedRoom] = useState(null);
+interface AdminDashboardProps {
+  onSignOut: () => Promise<void>;
+}
+
+const AdminDashboard = ({ onSignOut }: AdminDashboardProps) => {
+  const { toast } = useToast();
+  const [rooms, setRooms] = useState<any[]>([]);
+  const [amenities, setAmenities] = useState<any[]>([]);
+  const [selectedRoom, setSelectedRoom] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const [roomsRes, amenitiesRes] = await Promise.all([
+        supabase.from("room_types").select("*").order("display_order"),
+        supabase.from("amenities").select("*").order("display_order"),
+      ]);
+
+      if (roomsRes.error) throw roomsRes.error;
+      if (amenitiesRes.error) throw amenitiesRes.error;
+
+      setRooms(roomsRes.data || []);
+      setAmenities(amenitiesRes.data || []);
+    } catch (error: any) {
+      toast({
+        title: "Erro ao carregar dados",
+        description: error.message,
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const stats = {
-    totalRooms: data.rooms.length,
-    featuredRooms: data.rooms.filter(room => room.featured).length,
-    galleryImages: data.gallery.length,
-    avgPrice: Math.round(data.rooms.reduce((sum, room) => sum + parseFloat(room.price), 0) / data.rooms.length)
+    totalRooms: rooms.length,
+    featuredRooms: rooms.filter(room => room.featured).length,
+    avgPriceLow: rooms.length > 0 ? Math.round(rooms.reduce((sum, room) => sum + room.price_low_season, 0) / rooms.length) : 0,
   };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-sand">
+        <p className="text-lg">Carregando dados...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-secondary/30">
@@ -45,7 +84,7 @@ const AdminDashboard = () => {
           
           <Button 
             variant="outline" 
-            onClick={logout}
+            onClick={onSignOut}
             className="flex items-center gap-2"
           >
             <LogOut className="w-4 h-4" />
@@ -83,24 +122,12 @@ const AdminDashboard = () => {
 
           <Card className="p-6">
             <div className="flex items-center gap-4">
-              <div className="p-3 bg-earth/20 rounded-full">
-                <Images className="w-6 h-6 text-earth-dark" />
-              </div>
-              <div>
-                <p className="text-sm text-muted-foreground">Imagens Galeria</p>
-                <p className="text-2xl font-bold text-foreground">{stats.galleryImages}</p>
-              </div>
-            </div>
-          </Card>
-
-          <Card className="p-6">
-            <div className="flex items-center gap-4">
               <div className="p-3 bg-primary/10 rounded-full">
                 <DollarSign className="w-6 h-6 text-primary" />
               </div>
               <div>
-                <p className="text-sm text-muted-foreground">Preço Médio</p>
-                <p className="text-2xl font-bold text-foreground">R$ {stats.avgPrice}</p>
+                <p className="text-sm text-muted-foreground">Preço Médio (Baixa)</p>
+                <p className="text-2xl font-bold text-foreground">R$ {stats.avgPriceLow}</p>
               </div>
             </div>
           </Card>
@@ -108,59 +135,57 @@ const AdminDashboard = () => {
 
         {/* Main Content */}
         <Tabs defaultValue="rooms" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-2">
+          <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger value="rooms" className="flex items-center gap-2">
               <Bed className="w-4 h-4" />
-              Gerenciar Quartos
+              Suítes
             </TabsTrigger>
-            <TabsTrigger value="gallery" className="flex items-center gap-2">
-              <Images className="w-4 h-4" />
-              Galeria de Fotos
+            <TabsTrigger value="amenities" className="flex items-center gap-2">
+              <Star className="w-4 h-4" />
+              Comodidades
+            </TabsTrigger>
+            <TabsTrigger value="pricing" className="flex items-center gap-2">
+              <DollarSign className="w-4 h-4" />
+              Preços
             </TabsTrigger>
           </TabsList>
 
           <TabsContent value="rooms" className="space-y-6">
             <div className="flex justify-between items-center">
               <h2 className="text-2xl font-bold text-foreground">
-                Quartos da Pousada
+                Suítes da Pousada
               </h2>
+              <Button className="flex items-center gap-2">
+                <Plus className="w-4 h-4" />
+                Nova Suíte
+              </Button>
             </div>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {data.rooms.map((room) => (
+              {rooms.map((room) => (
                 <Card key={room.id} className="overflow-hidden hover:shadow-lg transition-shadow">
                   {room.featured && (
                     <Badge className="absolute top-4 left-4 z-10 bg-accent text-accent-foreground">
-                      Destaque
+                      Mais Espaçosa
                     </Badge>
                   )}
                   
-                  <div className="relative h-48">
-                    <img 
-                      src={getImageUrl(room.images[0])}
-                      alt={room.name}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  
                   <div className="p-6">
-                    <div className="flex justify-between items-start mb-4">
-                      <h3 className="text-lg font-semibold text-foreground">
+                    <div className="mb-4">
+                      <h3 className="text-lg font-semibold text-foreground mb-2">
                         {room.name}
                       </h3>
-                      <div className="text-right">
-                        <p className="text-xl font-bold text-primary">
-                          R$ {room.price}
-                        </p>
-                        <p className="text-xs text-muted-foreground">por noite</p>
+                      <p className="text-sm text-muted-foreground mb-2">{room.capacity}</p>
+                      <div className="flex gap-4 text-sm">
+                        <div>
+                          <span className="text-muted-foreground">Baixa: </span>
+                          <span className="font-bold text-primary">R$ {room.price_low_season}</span>
+                        </div>
+                        <div>
+                          <span className="text-muted-foreground">Alta: </span>
+                          <span className="font-bold text-accent">R$ {room.price_high_season}</span>
+                        </div>
                       </div>
-                    </div>
-                    
-                    <div className="flex items-center gap-2 mb-4">
-                      <Users className="w-4 h-4 text-muted-foreground" />
-                      <span className="text-sm text-muted-foreground">
-                        {room.capacity}
-                      </span>
                     </div>
                     
                     <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
@@ -186,18 +211,56 @@ const AdminDashboard = () => {
             </div>
           </TabsContent>
 
-          <TabsContent value="gallery">
-            <GalleryManager />
+          <TabsContent value="amenities" className="space-y-6">
+            <div className="flex justify-between items-center">
+              <h2 className="text-2xl font-bold text-foreground">
+                Comodidades da Pousada
+              </h2>
+              <Button className="flex items-center gap-2">
+                <Plus className="w-4 h-4" />
+                Nova Comodidade
+              </Button>
+            </div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {amenities.map((amenity) => (
+                <Card key={amenity.id} className="p-4 flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
+                      <span className="text-xl">{amenity.icon}</span>
+                    </div>
+                    <span className="font-medium text-foreground">{amenity.name}</span>
+                  </div>
+                  <Button size="sm" variant="outline">
+                    <Edit className="w-3 h-3" />
+                  </Button>
+                </Card>
+              ))}
+            </div>
+          </TabsContent>
+
+          <TabsContent value="pricing">
+            <Card className="p-6">
+              <h2 className="text-2xl font-bold text-foreground mb-6">
+                Tabela de Preços
+              </h2>
+              <p className="text-muted-foreground">
+                Edite os preços diretamente nas suítes ou use esta seção para ajustes em massa.
+              </p>
+            </Card>
           </TabsContent>
         </Tabs>
       </div>
 
-      {/* Room Editor Modal */}
+      {/* Room Editor Modal - TODO: Implement */}
       {selectedRoom && (
-        <RoomEditor
-          room={selectedRoom}
-          onClose={() => setSelectedRoom(null)}
-        />
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <Card className="max-w-2xl w-full p-6">
+            <h3 className="text-xl font-bold mb-4">Editar: {selectedRoom.name}</h3>
+            <p className="text-muted-foreground mb-4">Editor em desenvolvimento...</p>
+            <Button onClick={() => setSelectedRoom(null)}>Fechar</Button>
+          </Card>
+        </div>
       )}
     </div>
   );

@@ -10,7 +10,7 @@ const Contact = () => {
   return (
     <section className="py-20 px-6 bg-gradient-sand">
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-16">
+        <div id="contact" className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
             Reserve Sua Aventura
           </h2>
@@ -123,6 +123,16 @@ const Contact = () => {
               <p className="text-sm text-muted-foreground mt-1">Certificado de Excelência</p>
             </div>
           </div>
+        </div>
+
+        {/* Admin Link */}
+        <div className="text-center mt-8">
+          <a 
+            href="/auth" 
+            className="text-sm text-muted-foreground hover:text-primary transition-colors"
+          >
+            Acesso Administrativo
+          </a>
         </div>
       </div>
     </section>

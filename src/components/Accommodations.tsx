@@ -27,7 +27,7 @@ const Accommodations = () => {
   ];
 
   return (
-    <section className="py-20 px-6 bg-secondary/30">
+    <section id="accommodations" className="py-20 px-6 bg-secondary/30">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
