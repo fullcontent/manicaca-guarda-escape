@@ -1,13 +1,38 @@
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import heroImage from "@/assets/hero-beach.jpg";
+import { supabase } from "@/integrations/supabase/client";
 
 const Hero = () => {
+  const [customHeroImage, setCustomHeroImage] = useState<string | null>(null);
+
+  useEffect(() => {
+    fetchHeroImage();
+  }, []);
+
+  const fetchHeroImage = async () => {
+    try {
+      const { data: files } = await supabase.storage
+        .from("pousada-images")
+        .list("hero", { limit: 1 });
+
+      if (files && files.length > 0) {
+        const { data } = supabase.storage
+          .from("pousada-images")
+          .getPublicUrl(`hero/${files[0].name}`);
+        setCustomHeroImage(data.publicUrl);
+      }
+    } catch (error) {
+      console.error("Error fetching hero image:", error);
+    }
+  };
+
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <img 
-          src={heroImage} 
+          src={customHeroImage || heroImage} 
           alt="Pousada Manicaca - Guarda do Embaú Beach" 
           className="w-full h-full object-cover"
         />

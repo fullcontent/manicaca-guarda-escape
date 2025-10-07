@@ -1,30 +1,78 @@
+import { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Users, Wifi, AirVent, Car, Waves, Tv, Utensils, Snowflake, Sun } from "lucide-react";
-import { useContentData } from "@/hooks/useContentData";
+import { supabase } from "@/integrations/supabase/client";
+
+interface Room {
+  id: string;
+  name: string;
+  capacity: string;
+  price_low_season: number;
+  price_high_season: number;
+  description: string;
+  amenities: string[];
+  featured: boolean;
+  image_name: string | null;
+}
+
+interface Amenity {
+  id: string;
+  name: string;
+  icon: string;
+  display_order: number;
+}
 
 const Accommodations = () => {
-  const { data, getImageUrl } = useContentData();
+  const [rooms, setRooms] = useState<Room[]>([]);
+  const [amenities, setAmenities] = useState<Amenity[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const allAmenities = [
-    { icon: Waves, name: "Piscina com Quiosque" },
-    { icon: Utensils, name: "Churrasqueira" },
-    { icon: Car, name: "Estacionamento" },
-    { icon: AirVent, name: "Ar Condicionado" },
-    { icon: Tv, name: "TV a Cabo" },
-    { icon: Wifi, name: "Internet" },
-    { icon: Utensils, name: "Área de Café da Manhã" },
-    { icon: Snowflake, name: "Frigobar nas Suítes" },
-    { icon: Sun, name: "Sacada Individual" }
-  ];
+  useEffect(() => {
+    fetchData();
+  }, []);
 
-  const additionalInfo = [
-    "Roupa de cama e toalha de banho (troca a cada 5 diárias)",
-    "Não temos serviço de camareira diária",
-    "Não fornecemos café da manhã",
-    "Não aceitamos pets"
-  ];
+  const fetchData = async () => {
+    try {
+      const [roomsResponse, amenitiesResponse] = await Promise.all([
+        supabase.from("room_types").select("*").order("display_order"),
+        supabase.from("amenities").select("*").order("display_order")
+      ]);
+
+      if (roomsResponse.data) setRooms(roomsResponse.data);
+      if (amenitiesResponse.data) setAmenities(amenitiesResponse.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const getImageUrl = (imageName: string | null) => {
+    if (!imageName) return "/placeholder.svg";
+    
+    const { data } = supabase.storage
+      .from("pousada-images")
+      .getPublicUrl(imageName);
+    
+    return data.publicUrl;
+  };
+
+  const iconMap: Record<string, any> = {
+    Waves, Utensils, Car, AirVent, Tv, Wifi, Snowflake, Sun
+  };
+
+  if (loading) {
+    return (
+      <section id="accommodations" className="py-20 px-6 bg-secondary/30">
+        <div className="max-w-6xl mx-auto text-center">
+          <p className="text-lg text-muted-foreground">Carregando acomodações...</p>
+        </div>
+      </section>
+    );
+  }
+
 
   return (
     <section id="accommodations" className="py-20 px-6 bg-secondary/30">
@@ -48,7 +96,7 @@ const Accommodations = () => {
 
         {/* Rooms Grid */}
         <div className="grid lg:grid-cols-3 gap-8 mb-16">
-          {data.rooms.map((room, index) => (
+          {rooms.map((room, index) => (
             <Card key={room.id} className="overflow-hidden hover:shadow-xl transition-all-smooth animate-fade-in" style={{animationDelay: `${index * 0.2}s`}}>
               {room.featured && (
                 <div className="relative">
@@ -60,7 +108,7 @@ const Accommodations = () => {
               
               <div className="relative h-64 overflow-hidden">
                 <img 
-                  src={getImageUrl(room.images[0])}
+                  src={getImageUrl(room.image_name)}
                   alt={room.name}
                   className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
                 />
@@ -104,14 +152,17 @@ const Accommodations = () => {
           </h3>
           
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 mb-12">
-            {allAmenities.map((amenity, index) => (
-              <div key={index} className="text-center animate-fade-in" style={{animationDelay: `${index * 0.1}s`}}>
-                <div className="w-16 h-16 mx-auto mb-4 bg-primary/10 rounded-full flex items-center justify-center">
-                  <amenity.icon className="w-8 h-8 text-primary" />
+            {amenities.map((amenity, index) => {
+              const IconComponent = iconMap[amenity.icon] || Waves;
+              return (
+                <div key={amenity.id} className="text-center animate-fade-in" style={{animationDelay: `${index * 0.1}s`}}>
+                  <div className="w-16 h-16 mx-auto mb-4 bg-primary/10 rounded-full flex items-center justify-center">
+                    <IconComponent className="w-8 h-8 text-primary" />
+                  </div>
+                  <p className="text-sm font-medium text-foreground">{amenity.name}</p>
                 </div>
-                <p className="text-sm font-medium text-foreground">{amenity.name}</p>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
           {/* Additional Information */}

@@ -10,6 +10,7 @@ import logoManicaca from "@/assets/logo-manicaca.png";
 import RoomEditorModal from "./RoomEditorModal";
 import AmenityEditorModal from "./AmenityEditorModal";
 import GalleryEditorModal from "./GalleryEditorModal";
+import HeroImageEditor from "./HeroImageEditor";
 
 interface AdminDashboardProps {
   onSignOut: () => Promise<void>;
@@ -168,7 +169,7 @@ const AdminDashboard = ({ onSignOut }: AdminDashboardProps) => {
 
         {/* Main Content */}
         <Tabs defaultValue="rooms" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-3">
+          <TabsList className="grid w-full grid-cols-4">
             <TabsTrigger value="rooms" className="flex items-center gap-2">
               <Bed className="w-4 h-4" />
               Suítes
@@ -178,8 +179,12 @@ const AdminDashboard = ({ onSignOut }: AdminDashboardProps) => {
               Comodidades
             </TabsTrigger>
             <TabsTrigger value="pricing" className="flex items-center gap-2">
-              <DollarSign className="w-4 h-4" />
-              Preços
+              <Images className="w-4 h-4" />
+              Galeria
+            </TabsTrigger>
+            <TabsTrigger value="hero" className="flex items-center gap-2">
+              <Images className="w-4 h-4" />
+              Imagem Hero
             </TabsTrigger>
           </TabsList>
 
@@ -321,6 +326,10 @@ const AdminDashboard = ({ onSignOut }: AdminDashboardProps) => {
                 Gerencie as fotos da pousada e da praia que aparecem na galeria do site.
               </p>
             </Card>
+          </TabsContent>
+
+          <TabsContent value="hero">
+            <HeroImageEditor />
           </TabsContent>
         </Tabs>
       </div>
