@@ -3,10 +3,13 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { LogOut, Bed, Images, Edit, Star, DollarSign, Plus } from "lucide-react";
+import { LogOut, Bed, Images, Edit, Star, DollarSign, Plus, Trash2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import logoManicaca from "@/assets/logo-manicaca.png";
+import RoomEditorModal from "./RoomEditorModal";
+import AmenityEditorModal from "./AmenityEditorModal";
+import GalleryEditorModal from "./GalleryEditorModal";
 
 interface AdminDashboardProps {
   onSignOut: () => Promise<void>;
@@ -17,7 +20,11 @@ const AdminDashboard = ({ onSignOut }: AdminDashboardProps) => {
   const [rooms, setRooms] = useState<any[]>([]);
   const [amenities, setAmenities] = useState<any[]>([]);
   const [selectedRoom, setSelectedRoom] = useState<any>(null);
+  const [selectedAmenity, setSelectedAmenity] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [showRoomEditor, setShowRoomEditor] = useState(false);
+  const [showAmenityEditor, setShowAmenityEditor] = useState(false);
+  const [showGalleryEditor, setShowGalleryEditor] = useState(false);
 
 
   useEffect(() => {
@@ -44,6 +51,32 @@ const AdminDashboard = ({ onSignOut }: AdminDashboardProps) => {
       });
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleDeleteRoom = async (roomId: string) => {
+    if (!confirm("Tem certeza que deseja deletar esta suíte?")) return;
+
+    try {
+      const { error } = await supabase
+        .from("room_types")
+        .delete()
+        .eq("id", roomId);
+
+      if (error) throw error;
+
+      toast({
+        title: "Sucesso",
+        description: "Suíte deletada",
+      });
+
+      fetchData();
+    } catch (error: any) {
+      toast({
+        title: "Erro ao deletar",
+        description: error.message,
+        variant: "destructive",
+      });
     }
   };
 
@@ -155,7 +188,13 @@ const AdminDashboard = ({ onSignOut }: AdminDashboardProps) => {
               <h2 className="text-2xl font-bold text-foreground">
                 Suítes da Pousada
               </h2>
-              <Button className="flex items-center gap-2">
+              <Button 
+                className="flex items-center gap-2"
+                onClick={() => {
+                  setSelectedRoom(null);
+                  setShowRoomEditor(true);
+                }}
+              >
                 <Plus className="w-4 h-4" />
                 Nova Suíte
               </Button>
@@ -192,18 +231,30 @@ const AdminDashboard = ({ onSignOut }: AdminDashboardProps) => {
                       {room.description}
                     </p>
                     
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-center justify-between gap-2">
                       <span className="text-sm text-muted-foreground">
                         {room.amenities.length} comodidades
                       </span>
-                      <Button 
-                        size="sm"
-                        onClick={() => setSelectedRoom(room)}
-                        className="flex items-center gap-2"
-                      >
-                        <Edit className="w-3 h-3" />
-                        Editar
-                      </Button>
+                      <div className="flex gap-2">
+                        <Button 
+                          size="sm"
+                          onClick={() => {
+                            setSelectedRoom(room);
+                            setShowRoomEditor(true);
+                          }}
+                          className="flex items-center gap-2"
+                        >
+                          <Edit className="w-3 h-3" />
+                          Editar
+                        </Button>
+                        <Button 
+                          size="sm"
+                          variant="destructive"
+                          onClick={() => handleDeleteRoom(room.id)}
+                        >
+                          <Trash2 className="w-3 h-3" />
+                        </Button>
+                      </div>
                     </div>
                   </div>
                 </Card>
@@ -216,7 +267,13 @@ const AdminDashboard = ({ onSignOut }: AdminDashboardProps) => {
               <h2 className="text-2xl font-bold text-foreground">
                 Comodidades da Pousada
               </h2>
-              <Button className="flex items-center gap-2">
+              <Button 
+                className="flex items-center gap-2"
+                onClick={() => {
+                  setSelectedAmenity(null);
+                  setShowAmenityEditor(true);
+                }}
+              >
                 <Plus className="w-4 h-4" />
                 Nova Comodidade
               </Button>
@@ -231,7 +288,14 @@ const AdminDashboard = ({ onSignOut }: AdminDashboardProps) => {
                     </div>
                     <span className="font-medium text-foreground">{amenity.name}</span>
                   </div>
-                  <Button size="sm" variant="outline">
+                  <Button 
+                    size="sm" 
+                    variant="outline"
+                    onClick={() => {
+                      setSelectedAmenity(amenity);
+                      setShowAmenityEditor(true);
+                    }}
+                  >
                     <Edit className="w-3 h-3" />
                   </Button>
                 </Card>
@@ -240,28 +304,52 @@ const AdminDashboard = ({ onSignOut }: AdminDashboardProps) => {
           </TabsContent>
 
           <TabsContent value="pricing">
-            <Card className="p-6">
-              <h2 className="text-2xl font-bold text-foreground mb-6">
-                Tabela de Preços
-              </h2>
+            <Card className="p-6 space-y-6">
+              <div className="flex justify-between items-center">
+                <h2 className="text-2xl font-bold text-foreground">
+                  Galeria de Fotos
+                </h2>
+                <Button 
+                  className="flex items-center gap-2"
+                  onClick={() => setShowGalleryEditor(true)}
+                >
+                  <Images className="w-4 h-4" />
+                  Gerenciar Galeria
+                </Button>
+              </div>
               <p className="text-muted-foreground">
-                Edite os preços diretamente nas suítes ou use esta seção para ajustes em massa.
+                Gerencie as fotos da pousada e da praia que aparecem na galeria do site.
               </p>
             </Card>
           </TabsContent>
         </Tabs>
       </div>
 
-      {/* Room Editor Modal - TODO: Implement */}
-      {selectedRoom && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <Card className="max-w-2xl w-full p-6">
-            <h3 className="text-xl font-bold mb-4">Editar: {selectedRoom.name}</h3>
-            <p className="text-muted-foreground mb-4">Editor em desenvolvimento...</p>
-            <Button onClick={() => setSelectedRoom(null)}>Fechar</Button>
-          </Card>
-        </div>
-      )}
+      <RoomEditorModal
+        room={selectedRoom}
+        open={showRoomEditor}
+        onClose={() => {
+          setShowRoomEditor(false);
+          setSelectedRoom(null);
+        }}
+        onSave={fetchData}
+        availableAmenities={amenities}
+      />
+
+      <AmenityEditorModal
+        amenity={selectedAmenity}
+        open={showAmenityEditor}
+        onClose={() => {
+          setShowAmenityEditor(false);
+          setSelectedAmenity(null);
+        }}
+        onSave={fetchData}
+      />
+
+      <GalleryEditorModal
+        open={showGalleryEditor}
+        onClose={() => setShowGalleryEditor(false)}
+      />
     </div>
   );
 };
