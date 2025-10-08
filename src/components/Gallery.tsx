@@ -1,7 +1,65 @@
-import { useContentData } from "@/hooks/useContentData";
+import { useState, useEffect } from "react";
+import { supabase } from "@/integrations/supabase/client";
+
+interface GalleryImage {
+  id: string;
+  image_url: string;
+  category: string;
+  display_order: number;
+}
 
 const Gallery = () => {
-  const { data, getImageUrl } = useContentData();
+  const [images, setImages] = useState<GalleryImage[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchGalleryImages();
+  }, []);
+
+  const fetchGalleryImages = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("gallery_images")
+        .select("*")
+        .order("display_order");
+
+      if (error) {
+        if (import.meta.env.DEV) {
+          console.error("Error fetching gallery images:", error);
+        }
+        return;
+      }
+
+      setImages((data || []) as GalleryImage[]);
+    } catch (error) {
+      if (import.meta.env.DEV) {
+        console.error("Error in fetchGalleryImages:", error);
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const getImageUrl = (imagePath: string) => {
+    const { data } = supabase.storage
+      .from("pousada-images")
+      .getPublicUrl(imagePath);
+    return data.publicUrl;
+  };
+
+  if (loading) {
+    return (
+      <section className="py-20 px-6 bg-background">
+        <div className="max-w-6xl mx-auto text-center">
+          <p className="text-muted-foreground">Carregando galeria...</p>
+        </div>
+      </section>
+    );
+  }
+
+  if (images.length === 0) {
+    return null;
+  }
 
   return (
     <section className="py-20 px-6 bg-background">
@@ -17,16 +75,16 @@ const Gallery = () => {
 
         {/* Image Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {data.gallery.map((image, index) => (
+          {images.map((image, index) => (
             <div 
-              key={index} 
+              key={image.id} 
               className="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-xl transition-all-smooth animate-fade-in cursor-pointer"
               style={{animationDelay: `${index * 0.1}s`}}
             >
               <div className="aspect-square">
                 <img 
-                  src={getImageUrl(image.src)}
-                  alt={image.alt}
+                  src={getImageUrl(image.image_url)}
+                  alt={image.category}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                 />
               </div>
@@ -37,7 +95,6 @@ const Gallery = () => {
                   <span className="inline-block px-3 py-1 bg-accent text-accent-foreground text-xs font-semibold rounded-full mb-2">
                     {image.category}
                   </span>
-                  <p className="text-white font-medium">{image.alt}</p>
                 </div>
               </div>
             </div>
@@ -54,10 +111,10 @@ const Gallery = () => {
               Siga-nos nas redes sociais para acompanhar o dia a dia da pousada
             </p>
             <div className="flex justify-center gap-4">
-              <a href="#" className="px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors">
+              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors">
                 Instagram
               </a>
-              <a href="#" className="px-6 py-3 bg-accent text-accent-foreground rounded-lg hover:bg-accent/80 transition-colors">
+              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="px-6 py-3 bg-accent text-accent-foreground rounded-lg hover:bg-accent/80 transition-colors">
                 Facebook
               </a>
             </div>

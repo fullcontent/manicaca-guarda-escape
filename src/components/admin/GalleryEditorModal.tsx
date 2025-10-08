@@ -60,10 +60,23 @@ const GalleryEditorModal = ({ open, onClose }: GalleryEditorModalProps) => {
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
         
+        // Validate MIME type
         if (!file.type.startsWith("image/")) {
           toast({
             title: "Erro",
             description: `${file.name} não é uma imagem válida`,
+            variant: "destructive",
+          });
+          continue;
+        }
+
+        // Validate file extension
+        const allowedExtensions = ['.jpg', '.jpeg', '.png', '.webp'];
+        const extension = file.name.substring(file.name.lastIndexOf('.')).toLowerCase();
+        if (!allowedExtensions.includes(extension)) {
+          toast({
+            title: "Erro",
+            description: `${file.name} tem formato não permitido. Use: JPG, PNG ou WEBP`,
             variant: "destructive",
           });
           continue;
@@ -100,9 +113,12 @@ const GalleryEditorModal = ({ open, onClose }: GalleryEditorModalProps) => {
 
       fetchImages();
     } catch (error: any) {
+      if (import.meta.env.DEV) {
+        console.error("Error uploading images:", error);
+      }
       toast({
         title: "Erro ao enviar imagens",
-        description: error.message,
+        description: "Ocorreu um erro ao processar as imagens",
         variant: "destructive",
       });
     } finally {
@@ -134,9 +150,12 @@ const GalleryEditorModal = ({ open, onClose }: GalleryEditorModalProps) => {
 
       fetchImages();
     } catch (error: any) {
+      if (import.meta.env.DEV) {
+        console.error("Error deleting image:", error);
+      }
       toast({
         title: "Erro ao deletar",
-        description: error.message,
+        description: "Ocorreu um erro ao deletar a imagem",
         variant: "destructive",
       });
     }
