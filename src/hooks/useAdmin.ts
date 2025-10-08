@@ -51,13 +51,17 @@ export const useAdmin = () => {
         .maybeSingle();
 
       if (error) {
-        console.error("Error checking admin status:", error);
+        if (import.meta.env.DEV) {
+          console.error("Error checking admin status:", error);
+        }
         setIsAdmin(false);
       } else {
         setIsAdmin(!!data);
       }
     } catch (error) {
-      console.error("Error in checkAdminStatus:", error);
+      if (import.meta.env.DEV) {
+        console.error("Error in checkAdminStatus:", error);
+      }
       setIsAdmin(false);
     } finally {
       setLoading(false);

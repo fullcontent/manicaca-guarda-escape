@@ -27,7 +27,9 @@ const HeroImageEditor = () => {
         setHeroImage(data.publicUrl);
       }
     } catch (error) {
-      console.error("Error fetching hero image:", error);
+      if (import.meta.env.DEV) {
+        console.error("Error fetching hero image:", error);
+      }
     } finally {
       setLoading(false);
     }
@@ -37,8 +39,17 @@ const HeroImageEditor = () => {
     const file = e.target.files?.[0];
     if (!file) return;
 
+    // Validate MIME type
     if (!file.type.startsWith("image/")) {
       toast.error("Por favor, selecione um arquivo de imagem válido");
+      return;
+    }
+
+    // Validate file extension
+    const allowedExtensions = ['.jpg', '.jpeg', '.png', '.webp'];
+    const extension = file.name.substring(file.name.lastIndexOf('.')).toLowerCase();
+    if (!allowedExtensions.includes(extension)) {
+      toast.error("Formato não permitido. Use: JPG, PNG ou WEBP");
       return;
     }
 
@@ -67,7 +78,9 @@ const HeroImageEditor = () => {
       toast.success("Imagem hero atualizada com sucesso!");
       fetchHeroImage();
     } catch (error) {
-      console.error("Error uploading hero image:", error);
+      if (import.meta.env.DEV) {
+        console.error("Error uploading hero image:", error);
+      }
       toast.error("Erro ao fazer upload da imagem");
     } finally {
       setUploading(false);
@@ -91,7 +104,9 @@ const HeroImageEditor = () => {
         toast.success("Imagem hero removida com sucesso!");
       }
     } catch (error) {
-      console.error("Error deleting hero image:", error);
+      if (import.meta.env.DEV) {
+        console.error("Error deleting hero image:", error);
+      }
       toast.error("Erro ao remover imagem");
     }
   };
