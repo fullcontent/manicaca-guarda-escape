@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -32,20 +32,37 @@ interface RoomEditorModalProps {
 
 const RoomEditorModal = ({ room, open, onClose, onSave, availableAmenities }: RoomEditorModalProps) => {
   const { toast } = useToast();
-  const [formData, setFormData] = useState<Room>(
-    room || {
-      name: "",
-      capacity: "",
-      price_low_season: 0,
-      price_high_season: 0,
-      description: "",
-      amenities: [],
-      featured: false,
-      display_order: 0,
-    }
-  );
+  const [formData, setFormData] = useState<Room>({
+    name: "",
+    capacity: "",
+    price_low_season: 0,
+    price_high_season: 0,
+    description: "",
+    amenities: [],
+    featured: false,
+    display_order: 0,
+  });
   const [uploading, setUploading] = useState(false);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (room) {
+      setFormData(room);
+      setImagePreview(null);
+    } else {
+      setFormData({
+        name: "",
+        capacity: "",
+        price_low_season: 0,
+        price_high_season: 0,
+        description: "",
+        amenities: [],
+        featured: false,
+        display_order: 0,
+      });
+      setImagePreview(null);
+    }
+  }, [room, open]);
 
   const handleInputChange = (field: keyof Room, value: any) => {
     setFormData({ ...formData, [field]: value });

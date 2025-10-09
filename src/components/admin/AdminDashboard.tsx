@@ -293,16 +293,38 @@ const AdminDashboard = ({ onSignOut }: AdminDashboardProps) => {
                     </div>
                     <span className="font-medium text-foreground">{amenity.name}</span>
                   </div>
-                  <Button 
-                    size="sm" 
-                    variant="outline"
-                    onClick={() => {
-                      setSelectedAmenity(amenity);
-                      setShowAmenityEditor(true);
-                    }}
-                  >
-                    <Edit className="w-3 h-3" />
-                  </Button>
+                  <div className="flex gap-2">
+                    <Button 
+                      size="sm" 
+                      variant="outline"
+                      onClick={() => {
+                        setSelectedAmenity(amenity);
+                        setShowAmenityEditor(true);
+                      }}
+                    >
+                      <Edit className="w-3 h-3" />
+                    </Button>
+                    <Button 
+                      size="sm" 
+                      variant="destructive"
+                      onClick={async () => {
+                        if (!confirm("Tem certeza que deseja deletar esta comodidade?")) return;
+                        try {
+                          const { error } = await supabase
+                            .from("amenities")
+                            .delete()
+                            .eq("id", amenity.id);
+                          if (error) throw error;
+                          toast({ title: "Sucesso", description: "Comodidade deletada" });
+                          fetchData();
+                        } catch (error: any) {
+                          toast({ title: "Erro ao deletar", description: error.message, variant: "destructive" });
+                        }
+                      }}
+                    >
+                      <Trash2 className="w-3 h-3" />
+                    </Button>
+                  </div>
                 </Card>
               ))}
             </div>
