@@ -142,8 +142,13 @@ All colors MUST be HSL.
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  /* Custom scroll behavior */
+  /* Custom smooth scroll behavior */
   html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 80px;
+  }
+  
+  * {
     scroll-behavior: smooth;
   }
 

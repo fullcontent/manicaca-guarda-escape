@@ -67,7 +67,7 @@ const Hero = () => {
           <Button 
             size="lg" 
             variant="outline" 
-            className="border-white text-white hover:bg-white hover:text-primary px-8 py-4 text-lg font-semibold transition-all-smooth"
+            className="border-2 border-white bg-white/10 backdrop-blur-sm text-white px-8 py-4 text-lg font-semibold"
             onClick={() => document.getElementById('accommodations')?.scrollIntoView({ behavior: 'smooth' })}
           >
             Ver Acomodações
