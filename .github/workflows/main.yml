@@ -17,4 +17,4 @@ jobs:
         host: ${{ secrets.HOST }}
         user: ${{ secrets.USER }}
         password: ${{ secrets.PASS }}
-        localDir: "/home/pousadamanicaca/public_html"
+        remoteDir: "/home/pousadamanicaca/public_html"
