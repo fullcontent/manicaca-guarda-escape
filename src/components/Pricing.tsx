@@ -10,15 +10,7 @@ const Pricing = () => {
   return (
     <section id="pricing" className="py-20 px-6 bg-secondary/30">
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
-            Sua Base de Operações
-          </h2>
-          <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
-            Garanta sua data e prepare-se para a aventura
-          </p>
-        </div>
-
+        
         {/* Pricing Table */}
         <div className="bg-white rounded-2xl p-8 md:p-12 shadow-lg mb-12">
           <h3 className="text-2xl md:text-3xl font-bold text-foreground text-center mb-8">

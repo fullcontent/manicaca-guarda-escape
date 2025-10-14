@@ -43,19 +43,13 @@ const Hero = () => {
       <div className="relative z-10 text-center text-white px-6 max-w-4xl mx-auto">
         <h1 className="text-5xl md:text-7xl font-bold mb-6 animate-fade-in">
           <span className="block text-6xl md:text-8xl bg-gradient-to-r from-accent-light to-accent bg-clip-text text-transparent">
-            Guarda do Embaú:
+            Bem vindos a 9° reserva mundial do surf!
           </span>
-          Natureza e Refúgio
         </h1>
+       
         
-        <p className="text-xl md:text-2xl mb-8 opacity-90 animate-fade-in [animation-delay:0.3s]">
-          Escape da rotina. Estacione o carro. Viva a aventura a pé.
-        </p>
         
-        <p className="text-lg md:text-xl mb-12 max-w-2xl mx-auto opacity-80 animate-fade-in [animation-delay:0.6s]">
-          Sua base estratégica no coração da Guarda do Embaú, a poucos passos da praia, do rio e das trilhas
-        </p>
-
+        
         <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in [animation-delay:0.9s]">
           <Button 
             size="lg" 

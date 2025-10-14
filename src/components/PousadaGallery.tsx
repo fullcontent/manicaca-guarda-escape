@@ -61,10 +61,9 @@ const PousadaGallery = () => {
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
-            Conheça Nossa Pousada
+            Nosso ambiente
           </h2>
           <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
-            Ambientes aconchegantes e áreas de lazer para sua estadia perfeita
           </p>
         </div>
 
