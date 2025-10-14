@@ -31,6 +31,5 @@ jobs:
         user: ${{ secrets.USER }}
         password: ${{ secrets.PASS }}
         # Agora, enviamos APENAS a pasta de build!
-        localDir: "dist" 
         # ATENÇÃO: Verifique qual é o diretório de destino no seu servidor Locaweb!
         remoteDir: "/public_html"
