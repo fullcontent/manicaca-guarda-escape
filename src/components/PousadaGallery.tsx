@@ -21,7 +21,7 @@ const PousadaGallery = () => {
       const { data, error } = await supabase
         .from("gallery_images")
         .select("*")
-        .in("category", ["Quartos", "Áreas Comuns", "Pousada"])
+        .eq("category", "pousada")
         .order("display_order");
 
       if (error) {

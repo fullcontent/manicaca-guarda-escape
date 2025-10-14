@@ -21,7 +21,7 @@ const BeachGallery = () => {
       const { data, error } = await supabase
         .from("gallery_images")
         .select("*")
-        .in("category", ["Praia", "Localização", "Natureza"])
+        .eq("category", "praia")
         .order("display_order");
 
       if (error) {
