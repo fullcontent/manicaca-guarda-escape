@@ -15,7 +15,7 @@ jobs:
     - name: Setup Node.js
       uses: actions/setup-node@v3
       with:
-        node-version-file: '22' # <--- O setup-node lerá a versão do arquivo
+        node-version-file: '20' # <--- O setup-node lerá a versão do arquivo
 
     # 2. Instalar Dependências (Apenas para fazer o build)
     # Você PRECISA instalar o ncc e as dependências para o build funcionar
