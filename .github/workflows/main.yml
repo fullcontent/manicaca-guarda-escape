@@ -1,5 +1,9 @@
-Deploy via ftp
-on: push
+name: Deploy via ftp # Nome do seu workflow
+
+on:
+  push:
+    branches: [ "main" ] # Dispara na ação 'push' para a branch 'main'
+
 jobs:
   deploy:
     name: Deploy
@@ -10,7 +14,7 @@ jobs:
     - name: FTP Deploy Locaweb
       uses: locaweb/ftp-deploy@1.0.0
       with:
-        host: ${{ secrets.HOST }} 
+        host: ${{ secrets.HOST }}
         user: ${{ secrets.USER }}
         password: ${{ secrets.PASS }}
         localDir: "dist"
