@@ -5,7 +5,7 @@ import { Clock, CreditCard, DollarSign, CheckCircle } from "lucide-react";
 const Pricing = () => {
   const whatsappNumber = "554199913301";
   const whatsappLink = `https://wa.me/${whatsappNumber}`;
-  const bookingLink = "https://www.booking.com"; // Substituir pelo link real
+  const bookingLink = "https://www.booking.com/hotel/br/pousada-manicaca.pt-br.html"; // Substituir pelo link real
 
   return (
     <section id="pricing" className="py-20 px-6 bg-secondary/30">

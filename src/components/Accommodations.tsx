@@ -79,11 +79,8 @@ const Accommodations = () => {
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
-            Onde a Noite Restaura a Energia
+            Seu refúgio na Guarda
           </h2>
-          <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
-            Todas as suítes ficam no primeiro andar. Prepare-se para o próximo dia de aventuras.
-          </p>
         </div>
 
         {/* Important Notice */}
@@ -133,13 +130,6 @@ const Accommodations = () => {
                     </div>
                   ))}
                 </div>
-                
-                <Button 
-                  className="w-full bg-primary hover:bg-primary-dark text-white"
-                  onClick={() => document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })}
-                >
-                  Ver Preços
-                </Button>
               </div>
             </Card>
           ))}

@@ -89,15 +89,7 @@ const Contact = () => {
           </div>
         </div>
 
-        {/* Admin Link */}
-        <div className="text-center mt-8">
-          <a 
-            href="/auth" 
-            className="text-sm text-muted-foreground hover:text-primary transition-colors"
-          >
-            Acesso Administrativo
-          </a>
-        </div>
+        
       </div>
     </section>
   );

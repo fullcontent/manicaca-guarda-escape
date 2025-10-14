@@ -6,12 +6,12 @@ const Location = () => {
   const attractions = [
     {
       name: "Praia da Guarda",
-      distance: "Poucos passos",
+      distance: "Caminhada curta",
       description: "Acesso direto à praia principal para surf e banho de mar"
     },
     {
       name: "Rio da Madre",
-      distance: "Caminhada curta",
+      distance: "Poucos passos",
       description: "Rio cristalino perfeito para stand up paddle e relaxamento"
     },
     {
@@ -21,12 +21,12 @@ const Location = () => {
     },
     {
       name: "Pedra do Urubu",
-      distance: "Caminhada",
+      distance: "Trilha fácil",
       description: "Vista cinematográfica de tirar o fôlego"
     },
     {
       name: "Vale da Utopia",
-      distance: "Caminhada",
+      distance: "Trilha fácil",
       description: "Trilhas em meio à natureza exuberante"
     }
   ];
@@ -101,15 +101,17 @@ const Location = () => {
           <Card className="p-6 text-center">
             <Car className="w-12 h-12 mx-auto mb-4 text-primary" />
             <h4 className="font-semibold text-foreground mb-2">De Carro</h4>
-            <p className="text-muted-foreground text-sm">1h30 de Florianópolis</p>
-            <p className="text-muted-foreground text-sm">2h30 de Curitiba</p>
+            <p className="text-muted-foreground text-sm">45min de Florianópolis</p>
+            <p className="text-muted-foreground text-sm">5h30m de Porto Alegre</p>
+            <p className="text-muted-foreground text-sm">3h30 de Joinville</p>
+            <p className="text-muted-foreground text-sm">4h de Curitiba</p>
           </Card>
           
           <Card className="p-6 text-center">
             <Clock className="w-12 h-12 mx-auto mb-4 text-accent" />
             <h4 className="font-semibold text-foreground mb-2">Check-in / Check-out</h4>
-            <p className="text-muted-foreground text-sm">Check-in: 14h</p>
-            <p className="text-muted-foreground text-sm">Check-out: Meio-dia</p>
+            <p className="text-muted-foreground text-sm">Check-in: 14h00</p>
+            <p className="text-muted-foreground text-sm">Check-out: 12h00</p>
           </Card>
           
           <Card className="p-6 text-center">
