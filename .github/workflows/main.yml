@@ -15,7 +15,7 @@ jobs:
     - name: Setup Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: '18' # Use a versão do seu projeto
+        node-version-file: '.nvmrc' # <--- O setup-node lerá a versão do arquivo
 
     # 2. Instalar Dependências (Apenas para fazer o build)
     # Você PRECISA instalar o ncc e as dependências para o build funcionar
@@ -37,4 +37,4 @@ jobs:
         # Agora, enviamos APENAS a pasta de build!
         localDir: "dist" 
         # ATENÇÃO: Verifique qual é o diretório de destino no seu servidor Locaweb!
-        remoteDir: "/home/pousadamanicaca/public_html"
+        remoteDir: "/public_html"
