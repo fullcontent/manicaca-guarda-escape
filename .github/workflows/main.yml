@@ -20,11 +20,7 @@ jobs:
     # 2. Instalar Dependências (Apenas para fazer o build)
     # Você PRECISA instalar o ncc e as dependências para o build funcionar
     - name: Install Dependencies
-      run: npm install 
-
-    # 3. Compilar o Projeto com NCC (Cria a pasta 'dist' com 1 arquivo)
-    - name: Bundle with NCC
-      run: npm run build # Isso executa o comando "ncc build index.js -o dist"
+      run: npm install --production
 
       
        # 4. Deploy via FTP - MUITO MAIS RÁPIDO
