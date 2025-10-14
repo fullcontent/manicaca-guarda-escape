@@ -1,3 +1,9 @@
+name: Deploy via ftp # Nome do seu workflow
+
+on:
+  push:
+    branches: [ "main" ] # Dispara na ação 'push' para a branch 'main'
+
 jobs:
   deploy:
     name: Deploy
