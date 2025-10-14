@@ -44,20 +44,23 @@ const Location = () => {
         </div>
 
         <div className="grid lg:grid-cols-2 gap-12 mb-16">
-          {/* Map Placeholder */}
+          {/* Google Maps Embed */}
           <div className="relative">
-            <div className="aspect-square bg-gradient-ocean rounded-2xl shadow-lg overflow-hidden">
-              <div className="w-full h-full bg-primary/10 flex items-center justify-center">
-                <div className="text-center text-primary">
-                  <MapPin className="w-16 h-16 mx-auto mb-4" />
-                  <h3 className="text-xl font-semibold">Pousada Manicaca</h3>
-                  <p className="text-sm opacity-80">Guarda do Embaú, SC</p>
-                </div>
-              </div>
+            <div className="aspect-square rounded-2xl shadow-lg overflow-hidden">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3543.2645634891847!2d-48.59705131255682!3d-27.905500076191886!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9526d7d20f7d3dbf%3A0x1ccc08415a2a330d!2sPousada%20Manicaca!5e0!3m2!1spt-BR!2sbr!4v1709000000000!5m2!1spt-BR!2sbr"
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title="Localização da Pousada Manicaca"
+              />
             </div>
             <Button 
               asChild
-              className="absolute bottom-4 right-4 bg-white text-primary hover:bg-secondary"
+              className="absolute bottom-4 right-4 bg-white text-primary hover:bg-secondary shadow-lg"
             >
               <a 
                 href="https://www.google.com/maps/place/Pousada+Manicaca/@-27.9055,-48.5970513,17z/data=!4m9!3m8!1s0x9526d7d20f7d3dbf:0x1ccc08415a2a330d!5m2!4m1!1i2!8m2!3d-27.9055!4d-48.594471!16s%2Fg%2F1yfh_jqkt?entry=ttu&g_ep=EgoyMDI1MDkyNC4wIKXMDSoASAFQAw%3D%3D"

@@ -79,49 +79,13 @@ const Contact = () => {
         </div>
 
         {/* Social Media */}
-        <div className="text-center mb-16">
+        <div className="text-center">
           <h3 className="text-xl font-semibold text-foreground mb-6">Siga-nos nas Redes Sociais</h3>
           <div className="flex justify-center gap-4">
             <Button size="lg" className="bg-gradient-to-r from-pink-500 to-purple-600 text-white hover:shadow-lg">
               <Instagram className="w-5 h-5 mr-2" />
               Instagram
             </Button>
-          </div>
-        </div>
-
-        {/* Trust Badges */}
-        <div className="bg-white rounded-2xl p-8 shadow-lg">
-          <h3 className="text-center text-xl font-semibold text-foreground mb-8">
-            Recomendado Por
-          </h3>
-          <div className="flex flex-col md:flex-row items-center justify-center gap-8">
-            <div className="flex flex-col items-center">
-              <div className="bg-[#003580] text-white px-8 py-4 rounded-lg font-bold text-2xl mb-2">
-                Booking.com
-              </div>
-              <div className="flex items-center gap-1">
-                {[...Array(5)].map((_, i) => (
-                  <svg key={i} className="w-5 h-5 text-yellow-400 fill-current" viewBox="0 0 20 20">
-                    <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
-                  </svg>
-                ))}
-              </div>
-              <p className="text-sm text-muted-foreground mt-1">Avaliação Excepcional</p>
-            </div>
-            
-            <div className="flex flex-col items-center">
-              <div className="bg-[#00AF87] text-white px-8 py-4 rounded-lg font-bold text-2xl mb-2">
-                TripAdvisor
-              </div>
-              <div className="flex items-center gap-1">
-                {[...Array(5)].map((_, i) => (
-                  <svg key={i} className="w-5 h-5 text-green-600 fill-current" viewBox="0 0 20 20">
-                    <circle cx="10" cy="10" r="10" />
-                  </svg>
-                ))}
-              </div>
-              <p className="text-sm text-muted-foreground mt-1">Certificado de Excelência</p>
-            </div>
           </div>
         </div>
 
