@@ -1,4 +1,4 @@
-name: Deploy via ftp - SOMENTE DEPLOY
+name: Deploy via ftp
 
 on:
   push:
@@ -14,11 +14,10 @@ jobs:
     # NENHUMA INSTALAÇÃO. NENHUM BUILD.
 
     # 1. Deploy via FTP
-    - name: FTP Deploy Locaweb (APENAS TRANSFERÊNCIA)
+    - name: FTP Deploy Locaweb
       uses: locaweb/ftp-deploy@1.0.0
       with:
         host: ${{ secrets.HOST }}         
         user: ${{ secrets.USER }}
         password: ${{ secrets.PASS }}
-        # Assumimos que 'dist' está no seu repositório Git!
-         remoteDir: "public_html"
+        remoteDir: "/public_html"
