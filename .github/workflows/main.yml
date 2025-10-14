@@ -31,7 +31,6 @@ jobs:
         password: ${{ secrets.PASS }}
         # Mude localDir para o diretório raiz do seu projeto 
         # (onde estão o código e a pasta node_modules que acabamos de instalar)
-        localDir: "." 
         # Se você já faz o build para 'dist', mantenha 'dist', 
         # mas se for um backend, o '.' é o mais provável.
         remoteDir: "/home/pousadamanicaca/public_html"
