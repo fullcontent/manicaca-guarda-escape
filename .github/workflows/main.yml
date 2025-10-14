@@ -1,8 +1,8 @@
-name: Deploy via ftp # Nome do seu workflow
+name: Deploy via ftp - SOMENTE DEPLOY
 
 on:
   push:
-    branches: [ "main" ] # Dispara na ação 'push' para a branch 'main'
+    branches: [ "main" ]
 
 jobs:
   deploy:
@@ -11,25 +11,14 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    # 1. Configurar Node.js (necessário para o próximo passo)
-    - name: Setup Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '22' # <--- O setup-node lerá a versão do arquivo
+    # NENHUMA INSTALAÇÃO. NENHUM BUILD.
 
-    # 2. Instalar Dependências (Apenas para fazer o build)
-    # Você PRECISA instalar o ncc e as dependências para o build funcionar
-    - name: Install Dependencies
-      run: npm install --production
-
-      
-       # 4. Deploy via FTP - MUITO MAIS RÁPIDO
-    - name: FTP Deploy Locaweb
+    # 1. Deploy via FTP
+    - name: FTP Deploy Locaweb (APENAS TRANSFERÊNCIA)
       uses: locaweb/ftp-deploy@1.0.0
       with:
         host: ${{ secrets.HOST }}         
         user: ${{ secrets.USER }}
         password: ${{ secrets.PASS }}
-        # Agora, enviamos APENAS a pasta de build!
-        # ATENÇÃO: Verifique qual é o diretório de destino no seu servidor Locaweb!
-        remoteDir: "/public_html"
+        # Assumimos que 'dist' está no seu repositório Git!
+         remoteDir: "/public_html"
