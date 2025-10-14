@@ -17,20 +17,24 @@ jobs:
       with:
         node-version: '18' # Use a versão do seu projeto
 
-    # 2. Instalar Dependências (npm i) NO RUNNER DO GITHUB
-    # Usamos o flag --production para não instalar 'devDependencies', economizando espaço e tempo.
-    - name: Install Dependencies (npm i --production)
-      run: npm install --production
+    # 2. Instalar Dependências (Apenas para fazer o build)
+    # Você PRECISA instalar o ncc e as dependências para o build funcionar
+    - name: Install Dependencies
+      run: npm install 
+
+    # 3. Compilar o Projeto com NCC (Cria a pasta 'dist' com 1 arquivo)
+    - name: Bundle with NCC
+      run: npm run build # Isso executa o comando "ncc build index.js -o dist"
+
       
-    # 3. Deploy via FTP
+       # 4. Deploy via FTP - MUITO MAIS RÁPIDO
     - name: FTP Deploy Locaweb
       uses: locaweb/ftp-deploy@1.0.0
       with:
         host: ${{ secrets.HOST }}         
         user: ${{ secrets.USER }}
         password: ${{ secrets.PASS }}
-        # Mude localDir para o diretório raiz do seu projeto 
-        # (onde estão o código e a pasta node_modules que acabamos de instalar)
-        # Se você já faz o build para 'dist', mantenha 'dist', 
-        # mas se for um backend, o '.' é o mais provável.
+        # Agora, enviamos APENAS a pasta de build!
+        localDir: "dist" 
+        # ATENÇÃO: Verifique qual é o diretório de destino no seu servidor Locaweb!
         remoteDir: "/home/pousadamanicaca/public_html"
