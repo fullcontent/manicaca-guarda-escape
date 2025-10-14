@@ -21,4 +21,4 @@ jobs:
         user: ${{ secrets.USER }}
         password: ${{ secrets.PASS }}
         # Assumimos que 'dist' está no seu repositório Git!
-         remoteDir: "/public_html"
+         remoteDir: "public_html"
