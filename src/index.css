@@ -164,4 +164,20 @@ All colors MUST be HSL.
     background: linear-gradient(135deg, hsl(var(--primary) / 0.1) 0%, hsl(var(--accent) / 0.1) 100%);
     z-index: 1;
   }
+
+  /* Logo hero with translucent effect and customizable color */
+  .logo-hero {
+    opacity: 0.9;
+    filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.3));
+    animation: fade-in 1s ease-out;
+  }
+
+  /* Custom logo color - change the fill value to customize */
+  .logo-hero path {
+    fill: hsl(var(--logo-color, 0 0% 100%));
+  }
+
+  .logo-hero .cls-1 {
+    fill: hsl(var(--logo-color, 0 0% 100%));
+  }
 }

@@ -44,11 +44,16 @@ const RoomEditorModal = ({ room, open, onClose, onSave, availableAmenities }: Ro
   });
   const [uploading, setUploading] = useState(false);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [additionalImages, setAdditionalImages] = useState<Array<{ id?: string; url: string; description: string; display_order: number }>>([]);
+  const [uploadingAdditional, setUploadingAdditional] = useState(false);
 
   useEffect(() => {
     if (room) {
       setFormData(room);
       setImagePreview(null);
+      if (room.id) {
+        fetchAdditionalImages(room.id);
+      }
     } else {
       setFormData({
         name: "",
@@ -61,8 +66,32 @@ const RoomEditorModal = ({ room, open, onClose, onSave, availableAmenities }: Ro
         display_order: 0,
       });
       setImagePreview(null);
+      setAdditionalImages([]);
     }
   }, [room, open]);
+
+  const fetchAdditionalImages = async (roomId: string) => {
+    try {
+      const { data, error } = await supabase
+        .from("room_images")
+        .select("*")
+        .eq("room_id", roomId)
+        .order("display_order");
+
+      if (error) throw error;
+
+      const images = data?.map(img => ({
+        id: img.id,
+        url: supabase.storage.from("pousada-images").getPublicUrl(img.image_url).data.publicUrl,
+        description: img.description || "",
+        display_order: img.display_order
+      })) || [];
+
+      setAdditionalImages(images);
+    } catch (error) {
+      console.error("Error fetching additional images:", error);
+    }
+  };
 
   const handleInputChange = (field: keyof Room, value: any) => {
     setFormData({ ...formData, [field]: value });
@@ -122,6 +151,135 @@ const RoomEditorModal = ({ room, open, onClose, onSave, availableAmenities }: Ro
     }
   };
 
+  const handleAdditionalImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+      toast({
+        title: "Erro",
+        description: "Por favor, selecione uma imagem válida",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (!formData.id) {
+      toast({
+        title: "Atenção",
+        description: "Salve a suíte primeiro antes de adicionar fotos adicionais",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setUploadingAdditional(true);
+    try {
+      const fileExt = file.name.split(".").pop();
+      const fileName = `${Math.random().toString(36).substring(2)}.${fileExt}`;
+      const filePath = `rooms/${fileName}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from("pousada-images")
+        .upload(filePath, file);
+
+      if (uploadError) throw uploadError;
+
+      const { data: insertData, error: insertError } = await supabase
+        .from("room_images")
+        .insert([{
+          room_id: formData.id,
+          image_url: filePath,
+          description: "",
+          display_order: additionalImages.length
+        }])
+        .select()
+        .single();
+
+      if (insertError) throw insertError;
+
+      const publicUrl = supabase.storage.from("pousada-images").getPublicUrl(filePath).data.publicUrl;
+      
+      setAdditionalImages([...additionalImages, {
+        id: insertData.id,
+        url: publicUrl,
+        description: "",
+        display_order: additionalImages.length
+      }]);
+
+      toast({
+        title: "Sucesso",
+        description: "Foto adicional enviada com sucesso",
+      });
+    } catch (error: any) {
+      toast({
+        title: "Erro ao enviar imagem",
+        description: error.message,
+        variant: "destructive",
+      });
+    } finally {
+      setUploadingAdditional(false);
+    }
+  };
+
+  const handleUpdateImageDescription = async (imageId: string, description: string) => {
+    try {
+      const { error } = await supabase
+        .from("room_images")
+        .update({ description })
+        .eq("id", imageId);
+
+      if (error) throw error;
+
+      setAdditionalImages(additionalImages.map(img => 
+        img.id === imageId ? { ...img, description } : img
+      ));
+
+      toast({
+        title: "Sucesso",
+        description: "Descrição atualizada",
+      });
+    } catch (error: any) {
+      toast({
+        title: "Erro",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleDeleteAdditionalImage = async (imageId: string, imageUrl: string) => {
+    try {
+      // Extract file path from URL
+      const urlParts = imageUrl.split("/pousada-images/");
+      const filePath = urlParts[1]?.split("?")[0];
+
+      if (filePath) {
+        await supabase.storage.from("pousada-images").remove([filePath]);
+      }
+
+      const { error } = await supabase
+        .from("room_images")
+        .delete()
+        .eq("id", imageId);
+
+      if (error) throw error;
+
+      setAdditionalImages(additionalImages.filter(img => img.id !== imageId));
+
+      toast({
+        title: "Sucesso",
+        description: "Foto removida",
+      });
+    } catch (error: any) {
+      toast({
+        title: "Erro",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
+  };
+
   const handleSave = async () => {
     if (!formData.name || !formData.capacity) {
       toast({
@@ -141,11 +299,16 @@ const RoomEditorModal = ({ room, open, onClose, onSave, availableAmenities }: Ro
 
         if (error) throw error;
       } else {
-        const { error } = await supabase
+        const { data, error } = await supabase
           .from("room_types")
-          .insert([formData]);
+          .insert([formData])
+          .select()
+          .single();
 
         if (error) throw error;
+        if (data) {
+          setFormData({ ...formData, id: data.id });
+        }
       }
 
       toast({
@@ -154,7 +317,15 @@ const RoomEditorModal = ({ room, open, onClose, onSave, availableAmenities }: Ro
       });
 
       onSave();
-      onClose();
+      if (!formData.id) {
+        // Don't close if it's a new room, so user can add photos
+        toast({
+          title: "Dica",
+          description: "Agora você pode adicionar fotos adicionais!",
+        });
+      } else {
+        onClose();
+      }
     } catch (error: any) {
       toast({
         title: "Erro ao salvar",
@@ -290,6 +461,68 @@ const RoomEditorModal = ({ room, open, onClose, onSave, availableAmenities }: Ro
               onChange={(e) => handleInputChange("display_order", parseInt(e.target.value) || 0)}
             />
           </div>
+
+          {formData.id && (
+            <div className="border-t pt-4">
+              <Label>Fotos Adicionais da Suíte</Label>
+              <p className="text-sm text-muted-foreground mb-4">
+                Adicione mais fotos para a galeria desta suíte
+              </p>
+              
+              <div className="space-y-4">
+                {additionalImages.map((image) => (
+                  <div key={image.id} className="border rounded-lg p-4">
+                    <div className="flex gap-4">
+                      <img
+                        src={image.url}
+                        alt="Foto adicional"
+                        className="w-24 h-24 object-cover rounded"
+                      />
+                      <div className="flex-1 space-y-2">
+                        <Input
+                          placeholder="Descrição da foto..."
+                          value={image.description}
+                          onChange={(e) => {
+                            const newImages = additionalImages.map(img =>
+                              img.id === image.id ? { ...img, description: e.target.value } : img
+                            );
+                            setAdditionalImages(newImages);
+                          }}
+                          onBlur={() => image.id && handleUpdateImageDescription(image.id, image.description)}
+                        />
+                        <Button
+                          variant="destructive"
+                          size="sm"
+                          onClick={() => image.id && handleDeleteAdditionalImage(image.id, image.url)}
+                        >
+                          <X className="w-4 h-4 mr-2" />
+                          Remover
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="w-full"
+                  disabled={uploadingAdditional}
+                  onClick={() => document.getElementById("additional-images-upload")?.click()}
+                >
+                  <Upload className="w-4 h-4 mr-2" />
+                  {uploadingAdditional ? "Enviando..." : "Adicionar Foto"}
+                </Button>
+                <input
+                  id="additional-images-upload"
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={handleAdditionalImageUpload}
+                />
+              </div>
+            </div>
+          )}
 
           <div className="flex gap-2 justify-end pt-4">
             <Button variant="outline" onClick={onClose}>

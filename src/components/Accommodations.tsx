@@ -2,8 +2,9 @@ import { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Users, Wifi, AirVent, Car, Waves, Tv, Utensils, Snowflake, Sun } from "lucide-react";
+import { Users, Wifi, AirVent, Car, Waves, Tv, Utensils, Snowflake, Sun, Image } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import RoomGalleryModal from "./RoomGalleryModal";
 
 interface Room {
   id: string;
@@ -28,6 +29,7 @@ const Accommodations = () => {
   const [rooms, setRooms] = useState<Room[]>([]);
   const [amenities, setAmenities] = useState<Amenity[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedRoom, setSelectedRoom] = useState<{ id: string; name: string; imageUrl: string } | null>(null);
 
   useEffect(() => {
     fetchData();
@@ -130,6 +132,29 @@ const Accommodations = () => {
                     </div>
                   ))}
                 </div>
+
+                <div className="flex items-center justify-between gap-4 pt-4 border-t">
+                  <div className="space-y-1">
+                    <p className="text-xs text-muted-foreground">Valores a partir de</p>
+                    <p className="text-2xl font-bold text-primary">
+                      R$ {room.price_low_season}
+                      <span className="text-sm font-normal text-muted-foreground">/noite</span>
+                    </p>
+                  </div>
+                  
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setSelectedRoom({ 
+                      id: room.id, 
+                      name: room.name, 
+                      imageUrl: getImageUrl(room.image_name) 
+                    })}
+                  >
+                    <Image className="w-4 h-4 mr-2" />
+                    Ver Fotos
+                  </Button>
+                </div>
               </div>
             </Card>
           ))}
@@ -187,6 +212,14 @@ const Accommodations = () => {
           </div>
         </div>
       </div>
+
+      <RoomGalleryModal
+        roomId={selectedRoom?.id || null}
+        roomName={selectedRoom?.name || ""}
+        mainImageUrl={selectedRoom?.imageUrl || ""}
+        open={!!selectedRoom}
+        onClose={() => setSelectedRoom(null)}
+      />
     </section>
   );
 };

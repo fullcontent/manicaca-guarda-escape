@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import heroImage from "@/assets/hero-beach.jpg";
+import LogoPousada from "@/assets/LogoPousada.svg";
 import { supabase } from "@/integrations/supabase/client";
 
 const Hero = () => {
@@ -41,7 +42,16 @@ const Hero = () => {
 
       {/* Content */}
       <div className="relative z-10 text-center text-white px-6 max-w-4xl mx-auto">
-        <h1 className="text-5xl md:text-7xl font-bold mb-6 animate-fade-in">
+        {/* Logo with fade animation */}
+        <div className="mb-8 animate-fade-in">
+          <img 
+            src={LogoPousada} 
+            alt="Pousada Manicaca Logo" 
+            className="w-full max-w-2xl mx-auto logo-hero"
+          />
+        </div>
+        
+        <h1 className="text-5xl md:text-7xl font-bold mb-6 animate-fade-in [animation-delay:0.3s]">
           <span className="block text-6xl md:text-8xl bg-gradient-to-r from-accent-light to-accent bg-clip-text text-transparent">
             Bem vindos a 9° reserva mundial do surf!
           </span>
