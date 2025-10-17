@@ -105,7 +105,14 @@ const Accommodations = () => {
                 </div>
               )}
               
-              <div className="relative h-64 overflow-hidden">
+              <div 
+                className="relative h-64 overflow-hidden cursor-pointer"
+                onClick={() => setSelectedRoom({ 
+                  id: room.id, 
+                  name: room.name, 
+                  imageUrl: getImageUrl(room.image_name) 
+                })}
+              >
                 <img 
                   src={getImageUrl(room.image_name)}
                   alt={room.name}

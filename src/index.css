@@ -167,9 +167,10 @@ All colors MUST be HSL.
 
   /* Logo hero with translucent effect and customizable color */
   .logo-hero {
-    opacity: 0.9;
+    opacity: 0.75;
     filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.3));
     animation: fade-in 1s ease-out;
+    transform: translateY(-20px);
   }
 
   /* Custom logo color - change the fill value to customize */
