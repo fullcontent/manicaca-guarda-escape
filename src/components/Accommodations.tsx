@@ -2,9 +2,10 @@ import { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Users, Wifi, AirVent, Car, Waves, Tv, Utensils, Snowflake, Sun, Image } from "lucide-react";
+import { UserGroupIcon } from "@heroicons/react/24/outline";
 import { supabase } from "@/integrations/supabase/client";
 import RoomGalleryModal from "./RoomGalleryModal";
+import AmenityIcon from "./AmenityIcon";
 
 interface Room {
   id: string;
@@ -22,6 +23,7 @@ interface Amenity {
   id: string;
   name: string;
   icon: string;
+  type: 'suite' | 'common';
   display_order: number;
 }
 
@@ -43,7 +45,7 @@ const Accommodations = () => {
       ]);
 
       if (roomsResponse.data) setRooms(roomsResponse.data);
-      if (amenitiesResponse.data) setAmenities(amenitiesResponse.data);
+      if (amenitiesResponse.data) setAmenities(amenitiesResponse.data as Amenity[]);
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
@@ -61,9 +63,8 @@ const Accommodations = () => {
     return data.publicUrl;
   };
 
-  const iconMap: Record<string, any> = {
-    Waves, Utensils, Car, AirVent, Tv, Wifi, Snowflake, Sun
-  };
+  const suiteAmenities = amenities.filter(a => a.type === 'suite');
+  const commonAmenities = amenities.filter(a => a.type === 'common');
 
   if (loading) {
     return (
@@ -124,7 +125,7 @@ const Accommodations = () => {
                 <div className="mb-4">
                   <h3 className="text-xl font-bold text-foreground mb-2">{room.name}</h3>
                   <div className="flex items-center gap-2 text-muted-foreground text-sm">
-                    <Users className="w-4 h-4 text-primary" />
+                    <UserGroupIcon className="w-4 h-4 text-primary" />
                     <span>{room.capacity}</span>
                   </div>
                 </div>
@@ -152,13 +153,16 @@ const Accommodations = () => {
                   <Button
                     variant="outline"
                     size="sm"
+                    className="flex items-center gap-2"
                     onClick={() => setSelectedRoom({ 
                       id: room.id, 
                       name: room.name, 
                       imageUrl: getImageUrl(room.image_name) 
                     })}
                   >
-                    <Image className="w-4 h-4 mr-2" />
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
                     Ver Fotos
                   </Button>
                 </div>
@@ -167,54 +171,71 @@ const Accommodations = () => {
           ))}
         </div>
 
-        {/* All Amenities */}
+        {/* Suite Amenities */}
         <div className="bg-white rounded-2xl p-8 md:p-12 shadow-lg mb-8">
           <h3 className="text-2xl md:text-3xl font-bold text-foreground text-center mb-12">
-            Comodidades da Pousada
+            Comodidades das Suítes
           </h3>
           
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 mb-12">
-            {amenities.map((amenity, index) => {
-              const IconComponent = iconMap[amenity.icon] || Waves;
-              return (
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
+            {suiteAmenities.map((amenity, index) => (
+              <div key={amenity.id} className="text-center animate-fade-in" style={{animationDelay: `${index * 0.1}s`}}>
+                <div className="w-16 h-16 mx-auto mb-4 bg-primary/10 rounded-full flex items-center justify-center">
+                  <AmenityIcon iconName={amenity.icon} className="w-8 h-8 text-primary" />
+                </div>
+                <p className="text-sm font-medium text-foreground">{amenity.name}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Common Amenities */}
+        {commonAmenities.length > 0 && (
+          <div className="bg-white rounded-2xl p-8 md:p-12 shadow-lg mb-8">
+            <h3 className="text-2xl md:text-3xl font-bold text-foreground text-center mb-12">
+              Comodidades Comuns da Pousada
+            </h3>
+            
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
+              {commonAmenities.map((amenity, index) => (
                 <div key={amenity.id} className="text-center animate-fade-in" style={{animationDelay: `${index * 0.1}s`}}>
-                  <div className="w-16 h-16 mx-auto mb-4 bg-primary/10 rounded-full flex items-center justify-center">
-                    <IconComponent className="w-8 h-8 text-primary" />
+                  <div className="w-16 h-16 mx-auto mb-4 bg-accent/10 rounded-full flex items-center justify-center">
+                    <AmenityIcon iconName={amenity.icon} className="w-8 h-8 text-accent" />
                   </div>
                   <p className="text-sm font-medium text-foreground">{amenity.name}</p>
                 </div>
-              );
-            })}
-          </div>
-
-          {/* Additional Information */}
-          <div className="border-t pt-8">
-            <h4 className="text-lg font-semibold text-foreground mb-4 text-center">Comodidades Comuns</h4>
-            <div className="grid md:grid-cols-2 gap-4 max-w-3xl mx-auto mb-6">
-              <div className="flex items-start gap-3 p-4 bg-secondary/20 rounded-lg">
-                <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></div>
-                <p className="text-sm text-muted-foreground">Varandas individuais com rede, mesinha e cadeiras</p>
-              </div>
-              <div className="flex items-start gap-3 p-4 bg-secondary/20 rounded-lg">
-                <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></div>
-                <p className="text-sm text-muted-foreground">Roupa de cama e toalha de banho (troca a cada 5 diárias)</p>
-              </div>
+              ))}
             </div>
-            
-            <h4 className="text-lg font-semibold text-foreground mb-4 text-center">Observações</h4>
-            <div className="grid md:grid-cols-3 gap-4 max-w-4xl mx-auto">
-              <div className="flex items-start gap-3 p-4 bg-amber-50 rounded-lg border border-amber-200">
-                <div className="w-2 h-2 bg-amber-500 rounded-full mt-2 flex-shrink-0"></div>
-                <p className="text-sm text-amber-900">Não temos serviço de camareira diária</p>
-              </div>
-              <div className="flex items-start gap-3 p-4 bg-amber-50 rounded-lg border border-amber-200">
-                <div className="w-2 h-2 bg-amber-500 rounded-full mt-2 flex-shrink-0"></div>
-                <p className="text-sm text-amber-900">Não fornecemos café da manhã pronto</p>
-              </div>
-              <div className="flex items-start gap-3 p-4 bg-amber-50 rounded-lg border border-amber-200">
-                <div className="w-2 h-2 bg-amber-500 rounded-full mt-2 flex-shrink-0"></div>
-                <p className="text-sm text-amber-900">Não aceitamos pets</p>
-              </div>
+          </div>
+        )}
+
+        {/* Additional Information */}
+        <div className="bg-white rounded-2xl p-8 md:p-12 shadow-lg">
+          <h4 className="text-lg font-semibold text-foreground mb-4 text-center">Informações Adicionais</h4>
+          <div className="grid md:grid-cols-2 gap-4 max-w-3xl mx-auto mb-6">
+            <div className="flex items-start gap-3 p-4 bg-secondary/20 rounded-lg">
+              <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></div>
+              <p className="text-sm text-muted-foreground">Varandas individuais com rede, mesinha e cadeiras</p>
+            </div>
+            <div className="flex items-start gap-3 p-4 bg-secondary/20 rounded-lg">
+              <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></div>
+              <p className="text-sm text-muted-foreground">Roupa de cama e toalha de banho (troca a cada 5 diárias)</p>
+            </div>
+          </div>
+          
+          <h4 className="text-lg font-semibold text-foreground mb-4 text-center">Observações</h4>
+          <div className="grid md:grid-cols-3 gap-4 max-w-4xl mx-auto">
+            <div className="flex items-start gap-3 p-4 bg-amber-50 rounded-lg border border-amber-200">
+              <div className="w-2 h-2 bg-amber-500 rounded-full mt-2 flex-shrink-0"></div>
+              <p className="text-sm text-amber-900">Não temos serviço de camareira diária</p>
+            </div>
+            <div className="flex items-start gap-3 p-4 bg-amber-50 rounded-lg border border-amber-200">
+              <div className="w-2 h-2 bg-amber-500 rounded-full mt-2 flex-shrink-0"></div>
+              <p className="text-sm text-amber-900">Não fornecemos café da manhã pronto</p>
+            </div>
+            <div className="flex items-start gap-3 p-4 bg-amber-50 rounded-lg border border-amber-200">
+              <div className="w-2 h-2 bg-amber-500 rounded-full mt-2 flex-shrink-0"></div>
+              <p className="text-sm text-amber-900">Não aceitamos pets</p>
             </div>
           </div>
         </div>
