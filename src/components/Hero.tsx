@@ -76,7 +76,7 @@ const Hero = () => {
       {/* Content */}
       <div className="relative z-10 text-center text-white px-6 max-w-4xl mx-auto">
         {/* Logo with fade animation */}
-        <div className="mb-4 animate-fade-in">
+        <div className="mb-3 animate-fade-in">
           <img 
             src={LogoPousada} 
             alt="Pousada Manicaca Logo" 
