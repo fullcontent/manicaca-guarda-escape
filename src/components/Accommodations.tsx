@@ -171,24 +171,7 @@ const Accommodations = () => {
           ))}
         </div>
 
-        {/* Suite Amenities */}
-        <div className="bg-white rounded-2xl p-8 md:p-12 shadow-lg mb-8">
-          <h3 className="text-2xl md:text-3xl font-bold text-foreground text-center mb-12">
-            Comodidades das Suítes
-          </h3>
-          
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
-            {suiteAmenities.map((amenity, index) => (
-              <div key={amenity.id} className="text-center animate-fade-in" style={{animationDelay: `${index * 0.1}s`}}>
-                <div className="w-16 h-16 mx-auto mb-4 bg-primary/10 rounded-full flex items-center justify-center">
-                  <AmenityIcon iconName={amenity.icon} className="w-8 h-8 text-primary" />
-                </div>
-                <p className="text-sm font-medium text-foreground">{amenity.name}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-
+       
         {/* Common Amenities */}
         {commonAmenities.length > 0 && (
           <div className="bg-white rounded-2xl p-8 md:p-12 shadow-lg mb-8">
