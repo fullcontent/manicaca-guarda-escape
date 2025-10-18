@@ -181,4 +181,6 @@ All colors MUST be HSL.
   .logo-hero .cls-1 {
     fill: hsl(var(--logo-color, 0 0% 100%));
   }
+
+  #lovable-badge{display:none!important}
 }
