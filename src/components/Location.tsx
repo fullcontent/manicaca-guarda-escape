@@ -101,10 +101,9 @@ const Location = () => {
           <Card className="p-6 text-center">
             <Car className="w-12 h-12 mx-auto mb-4 text-primary" />
             <h4 className="font-semibold text-foreground mb-2">De Carro</h4>
-            <p className="text-muted-foreground text-sm">45min de Florianópolis</p>
-            <p className="text-muted-foreground text-sm">5h30m de Porto Alegre</p>
-            <p className="text-muted-foreground text-sm">3h30 de Joinville</p>
-            <p className="text-muted-foreground text-sm">4h de Curitiba</p>
+            <p className="text-muted-foreground text-sm">60km de Florianópolis</p>
+            <p className="text-muted-foreground text-sm">33km de Garopaba</p>
+            
           </Card>
           
           <Card className="p-6 text-center">
