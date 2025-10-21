@@ -6,6 +6,8 @@ import { UserGroupIcon } from "@heroicons/react/24/outline";
 import { supabase } from "@/integrations/supabase/client";
 import RoomGalleryModal from "./RoomGalleryModal";
 import AmenityIcon from "./AmenityIcon";
+import { Link as ScrollLink } from "react-scroll";
+
 
 interface Room {
   id: string;
@@ -154,10 +156,24 @@ const Accommodations = () => {
                     </>
                   )}
                 </div>
-
-                <div className="flex items-center justify-between gap-4 pt-4 border-t">
+                  <div className="flex items-center justify-between gap-4 pt-4 border-t">
                   <div className="space-y-1">
-                    <a href="#Pricing"><p className="text-xs text-muted-foreground">Consultar valores</p></a>
+<ScrollLink
+            to="pricing"
+            smooth={true}
+            duration={800}
+            offset={-80}
+          >
+            <Button 
+              size="sm" 
+              variant="outline" 
+            className="flex items-center gap-2"
+            >
+              
+              Consultar valores
+            </Button>
+          </ScrollLink>
+
                   </div>
                   
                   <Button
