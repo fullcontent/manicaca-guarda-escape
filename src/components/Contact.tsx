@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Phone, Mail, MapPin, Instagram } from "lucide-react";
 
 const Contact = () => {
-  const whatsappNumber = "554199133301"; // +55 41 9991-3301
+  const whatsappNumber = "55419913301"; // +55 41 9991-3301
   const whatsappLink = `https://wa.me/${whatsappNumber}`;
   const googleMapsLink = "https://maps.app.goo.gl/XrPk3p9qYSTXJZnz8";
 
