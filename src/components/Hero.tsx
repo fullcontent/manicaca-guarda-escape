@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import heroImage from "@/assets/hero-beach.jpg";
 import LogoPousada from "@/assets/LogoPousada.svg";
 import { supabase } from "@/integrations/supabase/client";
+import { Link as ScrollLink } from "react-scroll";
 
 const Hero = () => {
   const [customHeroImages, setCustomHeroImages] = useState<string[]>([]);
@@ -102,14 +103,20 @@ const Hero = () => {
           >
             Fale Conosco
           </Button>
-          <Button 
-            size="lg" 
-            variant="outline" 
-            className="border-2 border-white bg-white/10 backdrop-blur-sm text-white px-8 py-4 text-lg font-semibold"
-            onClick={() => document.getElementById('accommodations')?.scrollIntoView({ behavior: 'smooth' })}
+          <ScrollLink
+            to="accommodations"
+            smooth={true}
+            duration={800}
+            offset={-80}
           >
-            Ver Acomodações
-          </Button>
+            <Button 
+              size="lg" 
+              variant="outline" 
+              className="border-2 border-white bg-white/10 backdrop-blur-sm text-white px-8 py-4 text-lg font-semibold cursor-pointer"
+            >
+              Ver Acomodações
+            </Button>
+          </ScrollLink>
         </div>
       </div>
 
