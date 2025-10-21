@@ -17,6 +17,7 @@ interface Room {
   price_high_season: number;
   description: string;
   amenities: string[];
+  suite_specific_amenities: string[];
   featured: boolean;
   image_name?: string;
   display_order: number;
@@ -39,9 +40,11 @@ const RoomEditorModal = ({ room, open, onClose, onSave, availableAmenities }: Ro
     price_high_season: 0,
     description: "",
     amenities: [],
+    suite_specific_amenities: [],
     featured: false,
     display_order: 0,
   });
+  const [newAmenity, setNewAmenity] = useState("");
   const [uploading, setUploading] = useState(false);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [additionalImages, setAdditionalImages] = useState<Array<{ id?: string; url: string; description: string; display_order: number }>>([]);
@@ -62,12 +65,14 @@ const RoomEditorModal = ({ room, open, onClose, onSave, availableAmenities }: Ro
         price_high_season: 0,
         description: "",
         amenities: [],
+        suite_specific_amenities: [],
         featured: false,
         display_order: 0,
       });
       setImagePreview(null);
       setAdditionalImages([]);
     }
+    setNewAmenity("");
   }, [room, open]);
 
   const fetchAdditionalImages = async (roomId: string) => {
@@ -441,6 +446,65 @@ const RoomEditorModal = ({ room, open, onClose, onSave, availableAmenities }: Ro
                   <span className="text-sm">{amenity.name}</span>
                 </div>
               ))}
+            </div>
+          </div>
+
+          <div className="border-t pt-4">
+            <Label>Comodidades Extras desta Suíte</Label>
+            <p className="text-sm text-muted-foreground mb-3">
+              Adicione comodidades específicas que só esta suíte possui
+            </p>
+            
+            <div className="space-y-3">
+              {formData.suite_specific_amenities.map((amenity, index) => (
+                <div key={index} className="flex items-center gap-2 bg-secondary/20 p-2 rounded">
+                  <span className="flex-1 text-sm">{amenity}</span>
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => {
+                      const newAmenities = formData.suite_specific_amenities.filter((_, i) => i !== index);
+                      setFormData({ ...formData, suite_specific_amenities: newAmenities });
+                    }}
+                  >
+                    <X className="w-4 h-4" />
+                  </Button>
+                </div>
+              ))}
+              
+              <div className="flex gap-2">
+                <Input
+                  placeholder="Ex: Vista para o mar, Banheira..."
+                  value={newAmenity}
+                  onChange={(e) => setNewAmenity(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' && newAmenity.trim()) {
+                      e.preventDefault();
+                      setFormData({
+                        ...formData,
+                        suite_specific_amenities: [...formData.suite_specific_amenities, newAmenity.trim()]
+                      });
+                      setNewAmenity("");
+                    }
+                  }}
+                />
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => {
+                    if (newAmenity.trim()) {
+                      setFormData({
+                        ...formData,
+                        suite_specific_amenities: [...formData.suite_specific_amenities, newAmenity.trim()]
+                      });
+                      setNewAmenity("");
+                    }
+                  }}
+                >
+                  Adicionar
+                </Button>
+              </div>
             </div>
           </div>
 

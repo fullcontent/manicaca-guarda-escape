@@ -15,6 +15,7 @@ interface Room {
   price_high_season: number;
   description: string;
   amenities: string[];
+  suite_specific_amenities: string[];
   featured: boolean;
   image_name: string | null;
 }
@@ -139,6 +140,19 @@ const Accommodations = () => {
                       <span className="text-sm text-muted-foreground">{amenity}</span>
                     </div>
                   ))}
+                  {room.suite_specific_amenities && room.suite_specific_amenities.length > 0 && (
+                    <>
+                      <div className="border-t pt-3 mt-3">
+                        <p className="text-xs font-semibold text-primary mb-2">Comodidades Extras:</p>
+                      </div>
+                      {room.suite_specific_amenities.map((amenity, amenityIndex) => (
+                        <div key={`specific-${amenityIndex}`} className="flex items-center gap-2">
+                          <div className="w-1.5 h-1.5 bg-accent rounded-full"></div>
+                          <span className="text-sm text-accent font-medium">{amenity}</span>
+                        </div>
+                      ))}
+                    </>
+                  )}
                 </div>
 
                 <div className="flex items-center justify-between gap-4 pt-4 border-t">

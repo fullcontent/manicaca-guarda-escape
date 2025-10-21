@@ -167,6 +167,7 @@ export type Database = {
           name: string
           price_high_season: number
           price_low_season: number
+          suite_specific_amenities: string[]
           updated_at: string
         }
         Insert: {
@@ -181,6 +182,7 @@ export type Database = {
           name: string
           price_high_season: number
           price_low_season: number
+          suite_specific_amenities?: string[]
           updated_at?: string
         }
         Update: {
@@ -195,6 +197,7 @@ export type Database = {
           name?: string
           price_high_season?: number
           price_low_season?: number
+          suite_specific_amenities?: string[]
           updated_at?: string
         }
         Relationships: []
