@@ -157,11 +157,7 @@ const Accommodations = () => {
 
                 <div className="flex items-center justify-between gap-4 pt-4 border-t">
                   <div className="space-y-1">
-                    <p className="text-xs text-muted-foreground">Valores a partir de</p>
-                    <p className="text-2xl font-bold text-primary">
-                      R$ {room.price_low_season}
-                      <span className="text-sm font-normal text-muted-foreground">/noite</span>
-                    </p>
+                    <a href="#Pricing"><p className="text-xs text-muted-foreground">Consultar valores</p></a>
                   </div>
                   
                   <Button
