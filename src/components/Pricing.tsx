@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Clock, CreditCard, DollarSign, CheckCircle } from "lucide-react";
 
 const Pricing = () => {
-  const whatsappNumber = "55419913301";
+  const whatsappNumber = "554199913301";
   const whatsappLink = `https://wa.me/${whatsappNumber}`;
   const bookingLink = "https://www.booking.com/hotel/br/pousada-manicaca.pt-br.html"; // Substituir pelo link real
 
