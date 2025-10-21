@@ -80,7 +80,8 @@ const Hero = () => {
           <img 
             src={LogoPousada} 
             alt="Pousada Manicaca Logo" 
-            className="w-full max-w-xl mx-auto logo-hero"
+            className="mx-auto logo-hero"
+            style={"width: 250px"}
           />
         </div>
         

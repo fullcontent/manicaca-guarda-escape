@@ -5,7 +5,7 @@ import { Phone, Mail, MapPin, Instagram } from "lucide-react";
 const Contact = () => {
   const whatsappNumber = "5541999133301"; // +55 41 9991-3301
   const whatsappLink = `https://wa.me/${whatsappNumber}`;
-  const googleMapsLink = "https://www.google.com/maps/place/Pousada+Manicaca/@-27.9055,-48.5970513,17z/data=!4m9!3m8!1s0x9526d7d20f7d3dbf:0x1ccc08415a2a330d!5m2!4m1!1i2!8m2!3d-27.9055!4d-48.594471!16s%2Fg%2F1yfh_jqkt?entry=ttu&g_ep=EgoyMDI1MDkyNC4wIKXMDSoASAFQAw%3D%3D";
+  const googleMapsLink = "https://maps.app.goo.gl/XrPk3p9qYSTXJZnz8";
 
   return (
     <section className="py-20 px-6 bg-gradient-sand">
@@ -27,7 +27,7 @@ const Contact = () => {
               <Phone className="w-8 h-8 text-green-600" />
             </div>
             <h3 className="font-bold text-foreground mb-2">WhatsApp</h3>
-            <p className="text-muted-foreground text-sm mb-1">+55 41 9991-3301</p>
+            <p className="text-muted-foreground text-sm mb-1">+55 41 99991-3301</p>
             <p className="text-muted-foreground text-xs mb-4">Atendimento 24h</p>
             <Button 
               asChild
@@ -78,18 +78,7 @@ const Contact = () => {
           </Card>
         </div>
 
-        {/* Social Media */}
-        <div className="text-center">
-          <h3 className="text-xl font-semibold text-foreground mb-6">Siga-nos nas Redes Sociais</h3>
-          <div className="flex justify-center gap-4">
-            <Button size="lg" className="bg-gradient-to-r from-pink-500 to-purple-600 text-white hover:shadow-lg">
-              <Instagram className="w-5 h-5 mr-2" />
-              Instagram
-            </Button>
-          </div>
-        </div>
-
-        
+              
       </div>
     </section>
   );
