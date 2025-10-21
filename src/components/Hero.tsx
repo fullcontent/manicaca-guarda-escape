@@ -81,7 +81,7 @@ const Hero = () => {
             src={LogoPousada} 
             alt="Pousada Manicaca Logo" 
             className="mx-auto logo-hero"
-            style={"width: 250px"}
+            style={{ width: "250px" }}
           />
         </div>
         
